@@ -17,22 +17,36 @@
     .back-btn:hover { color: var(--text); border-color: #444; }
     main { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 7rem 1.5rem 4rem; }
 
-    /* API Key Setup Screen */
-    .setup-screen { display: none; text-align: center; padding: 3rem 1rem; }
+    /* Setup Screen */
+    .setup-screen { text-align: center; padding: 2rem 1rem; }
     .setup-icon { font-size: 3rem; margin-bottom: 1.5rem; }
     .setup-screen h2 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.8rem; }
-    .setup-screen p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 460px; margin: 0 auto 2rem; }
-    .setup-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; max-width: 480px; margin: 0 auto; position: relative; overflow: hidden; text-align: left; }
+    .setup-screen > p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 460px; margin: 0 auto 2rem; }
+    .setup-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; max-width: 500px; margin: 0 auto; position: relative; overflow: hidden; text-align: left; }
     .setup-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2), transparent); }
+
+    /* Provider selector */
+    .provider-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.5rem; }
+    .provider-tab { border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem 1rem; cursor: pointer; transition: all 0.15s; text-align: center; }
+    .provider-tab:hover { border-color: #444; }
+    .provider-tab.active { border-color: var(--accent); background: rgba(255,77,0,0.06); }
+    .provider-tab-icon { font-size: 1.4rem; margin-bottom: 0.3rem; }
+    .provider-tab-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .provider-tab-hint { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+
     .setup-label { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #aaa; margin-bottom: 0.5rem; display: block; }
     .setup-input { width: 100%; background: #0a0a0a; border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.92rem; padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; margin-bottom: 1rem; }
     .setup-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,77,0,0.1); }
     .setup-input::placeholder { color: #444; }
     .setup-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 10px; padding: 0.9rem; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
     .setup-btn:hover { background: #ff6020; transform: translateY(-1px); }
-    .setup-hint { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; line-height: 1.6; }
+    .setup-hint { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; line-height: 1.7; }
     .setup-hint a { color: var(--accent); text-decoration: none; }
     .setup-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 0.7rem 1rem; font-size: 0.82rem; color: var(--red); margin-bottom: 1rem; display: none; }
+
+    /* Detected badge */
+    .detected-badge { display: none; align-items: center; gap: 0.5rem; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.8rem; color: var(--green); margin-bottom: 1rem; }
+    .detected-badge.show { display: flex; }
 
     /* Loading */
     .loading-screen { text-align: center; padding: 4rem 2rem; }
@@ -79,18 +93,18 @@
     .finding.good { border-left-color: var(--green); }
     .finding-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.1rem; }
     .finding-text { font-size: 0.88rem; line-height: 1.6; color: #bbb; }
-    .finding-text strong { color: var(--text); display: block; margin-bottom: 0.2rem; font-size: 0.9rem; }
+    .finding-text strong { color: var(--text); display: block; margin-bottom: 0.2rem; }
     .action-item { display: flex; gap: 1rem; padding: 1rem; background: rgba(255,77,0,0.04); border: 1px solid rgba(255,77,0,0.15); border-radius: 10px; margin-bottom: 0.8rem; }
     .action-num { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--accent); flex-shrink: 0; width: 28px; }
     .action-text { font-size: 0.88rem; line-height: 1.6; color: #ccc; }
     .action-text strong { color: var(--text); display: block; margin-bottom: 0.2rem; }
     .error-screen { text-align: center; padding: 4rem 2rem; }
     .error-screen h2 { font-family: 'Syne', sans-serif; font-size: 1.5rem; margin-bottom: 1rem; color: var(--red); }
-    .error-screen p { color: var(--muted); margin-bottom: 1.5rem; line-height: 1.6; }
+    .error-screen p { color: var(--muted); margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.9rem; max-width: 500px; margin-left: auto; margin-right: auto; }
     .btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
     .retry-btn { background: var(--accent); color: white; border: none; border-radius: 10px; padding: 0.8rem 2rem; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.95rem; }
     .reset-key-btn { background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem 2rem; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.95rem; }
-    .new-audit-btn { display: inline-block; margin-top: 2rem; background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 10px; padding: 0.8rem 2rem; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; }
+    .new-audit-btn { display: inline-block; margin-top: 2rem; background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 10px; padding: 0.8rem 2rem; font-family: 'Syne', sans-serif; font-weight: 700; text-decoration: none; transition: all 0.2s; }
     .new-audit-btn:hover { background: var(--accent); color: white; }
     .fade-in { animation: fadeUp 0.6s ease both; }
     @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -106,19 +120,38 @@
   </nav>
   <main>
 
-    <!-- API Key Setup Screen -->
+    <!-- Setup Screen -->
     <div id="setupScreen" class="setup-screen">
       <div class="setup-icon">🔑</div>
-      <h2>One quick setup</h2>
-      <p>RoastMyApp uses OpenAI to generate your audit. Enter your API key below — it's saved only in your browser and never sent anywhere else.</p>
+      <h2>Connect your AI</h2>
+      <p>Pick your AI provider and paste your API key. It's saved only in your browser — never in the code, never on GitHub.</p>
       <div class="setup-card">
         <div id="setupError" class="setup-error"></div>
-        <label class="setup-label">Your OpenAI API Key</label>
-        <input class="setup-input" id="apiKeyInput" type="password" placeholder="sk-..." />
+
+        <!-- Provider tabs -->
+        <div class="provider-tabs">
+          <div class="provider-tab active" id="tab-openai" onclick="selectProvider('openai')">
+            <div class="provider-tab-icon">🤖</div>
+            <div class="provider-tab-name">OpenAI</div>
+            <div class="provider-tab-hint">GPT-3.5 / GPT-4</div>
+          </div>
+          <div class="provider-tab" id="tab-gemini" onclick="selectProvider('gemini')">
+            <div class="provider-tab-icon">✨</div>
+            <div class="provider-tab-name">Google Gemini</div>
+            <div class="provider-tab-hint">Gemini 2.0 Flash</div>
+          </div>
+        </div>
+
+        <div id="detectedBadge" class="detected-badge">
+          <span>✅</span> <span id="detectedText">OpenAI key detected</span>
+        </div>
+
+        <label class="setup-label" id="keyLabel">OpenAI API Key</label>
+        <input class="setup-input" id="apiKeyInput" type="password" placeholder="sk-..." oninput="autoDetect()" />
         <button class="setup-btn" onclick="saveKeyAndStart()">🔥 Start My Audit</button>
-        <div class="setup-hint">
-          Don't have a key? Get one free at <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a><br/>
-          Your key is stored only in this browser. Never shared. Never in code.
+        <div class="setup-hint" id="setupHint">
+          Get your free key at <a href="https://platform.openai.com/api-keys" target="_blank" id="keyLink">platform.openai.com/api-keys</a><br/>
+          Your key stays in this browser only. Safe. Private. Never shared.
         </div>
       </div>
     </div>
@@ -151,11 +184,49 @@
 
     <!-- Report Output -->
     <div id="reportOutput" style="display:none"></div>
-
   </main>
 
   <script>
-    // No API key in code! Key is stored in browser localStorage only.
+    var selectedProvider = 'openai';
+
+    function selectProvider(provider) {
+      selectedProvider = provider;
+      document.getElementById('tab-openai').className = 'provider-tab' + (provider === 'openai' ? ' active' : '');
+      document.getElementById('tab-gemini').className = 'provider-tab' + (provider === 'gemini' ? ' active' : '');
+      if (provider === 'openai') {
+        document.getElementById('keyLabel').textContent = 'OpenAI API Key';
+        document.getElementById('apiKeyInput').placeholder = 'sk-...';
+        document.getElementById('keyLink').href = 'https://platform.openai.com/api-keys';
+        document.getElementById('keyLink').textContent = 'platform.openai.com/api-keys';
+      } else {
+        document.getElementById('keyLabel').textContent = 'Google Gemini API Key';
+        document.getElementById('apiKeyInput').placeholder = 'AIza...';
+        document.getElementById('keyLink').href = 'https://aistudio.google.com/app/apikey';
+        document.getElementById('keyLink').textContent = 'aistudio.google.com';
+      }
+      autoDetect();
+    }
+
+    function autoDetect() {
+      var val = document.getElementById('apiKeyInput').value.trim();
+      var badge = document.getElementById('detectedBadge');
+      var detectedText = document.getElementById('detectedText');
+      if (val.indexOf('sk-') === 0 && val.length > 20) {
+        selectedProvider = 'openai';
+        document.getElementById('tab-openai').className = 'provider-tab active';
+        document.getElementById('tab-gemini').className = 'provider-tab';
+        detectedText.textContent = 'OpenAI key detected automatically';
+        badge.className = 'detected-badge show';
+      } else if (val.indexOf('AIza') === 0 && val.length > 20) {
+        selectedProvider = 'gemini';
+        document.getElementById('tab-openai').className = 'provider-tab';
+        document.getElementById('tab-gemini').className = 'provider-tab active';
+        detectedText.textContent = 'Google Gemini key detected automatically';
+        badge.className = 'detected-badge show';
+      } else {
+        badge.className = 'detected-badge';
+      }
+    }
 
     var loadingSteps = ['ls1','ls2','ls3','ls4','ls5'];
     var currentStep = 1;
@@ -179,24 +250,26 @@
     }
 
     function resetKey() {
-      localStorage.removeItem('openai_key');
+      localStorage.removeItem('roast_api_key');
+      localStorage.removeItem('roast_provider');
       window.location.reload();
     }
 
     function saveKeyAndStart() {
       var key = document.getElementById('apiKeyInput').value.trim();
       var errEl = document.getElementById('setupError');
-      if (!key || key.indexOf('sk-') !== 0) {
-        errEl.textContent = 'Please enter a valid OpenAI key starting with sk-';
+      if (!key || key.length < 10) {
+        errEl.textContent = 'Please enter a valid API key.';
         errEl.style.display = 'block';
         return;
       }
       errEl.style.display = 'none';
-      localStorage.setItem('openai_key', key);
+      localStorage.setItem('roast_api_key', key);
+      localStorage.setItem('roast_provider', selectedProvider);
       document.getElementById('setupScreen').style.display = 'none';
       document.getElementById('loadingScreen').style.display = 'block';
       startLoadingAnimation();
-      generateReport(key);
+      generateReport(key, selectedProvider);
     }
 
     function getScoreClass(score) {
@@ -211,34 +284,37 @@
       var overall = Math.round((data.scores.ux + data.scores.marketing + data.scores.qa) / 3);
       var sectionsHTML = '';
       for (var s = 0; s < data.sections.length; s++) {
-        var section = data.sections[s];
-        var sc = getScoreClass(section.score);
-        var findingsHTML = '';
-        for (var f = 0; f < section.findings.length; f++) {
-          var fi = section.findings[f];
+        var sec = data.sections[s];
+        var sc = getScoreClass(sec.score);
+        var fHTML = '';
+        for (var f = 0; f < sec.findings.length; f++) {
+          var fi = sec.findings[f];
           var icon = fi.type === 'issue' ? '🔴' : fi.type === 'warning' ? '🟡' : '🟢';
-          findingsHTML += '<div class="finding ' + fi.type + '"><div class="finding-icon">' + icon + '</div><div class="finding-text"><strong>' + fi.title + '</strong>' + fi.detail + '</div></div>';
+          fHTML += '<div class="finding ' + fi.type + '"><div class="finding-icon">' + icon + '</div><div class="finding-text"><strong>' + fi.title + '</strong>' + fi.detail + '</div></div>';
         }
-        sectionsHTML += '<div class="section fade-in"><div class="section-header"><div class="section-icon">' + section.icon + '</div><div class="section-title">' + section.title + '</div><div class="section-score ' + sc + '">' + section.score + '/10</div></div><div class="section-content"><p>' + section.summary + '</p>' + findingsHTML + '</div></div>';
+        sectionsHTML += '<div class="section fade-in"><div class="section-header"><div class="section-icon">' + sec.icon + '</div><div class="section-title">' + sec.title + '</div><div class="section-score ' + sc + '">' + sec.score + '/10</div></div><div class="section-content"><p>' + sec.summary + '</p>' + fHTML + '</div></div>';
       }
-      var actionsHTML = '';
+      var aHTML = '';
       for (var a = 0; a < data.actions.length; a++) {
-        actionsHTML += '<div class="action-item"><div class="action-num">' + (a+1) + '</div><div class="action-text"><strong>' + data.actions[a].title + '</strong>' + data.actions[a].detail + '</div></div>';
+        aHTML += '<div class="action-item"><div class="action-num">' + (a+1) + '</div><div class="action-text"><strong>' + data.actions[a].title + '</strong>' + data.actions[a].detail + '</div></div>';
       }
-      var reportHTML = '<div class="report-header fade-in"><div class="report-tag">✦ AI Audit Complete</div><h1>Report: ' + meta.productName + '</h1><div class="report-meta"><div class="meta-item">🌐 <strong>' + meta.url + '</strong></div><div class="meta-item">🏷️ <strong>' + meta.niche + '</strong></div><div class="meta-item">👥 <strong>' + meta.audience + '</strong></div></div></div><div class="score-grid fade-in"><div class="score-card"><div class="score-num ' + getScoreClass(overall) + '">' + overall + '</div><div class="score-label">Overall Score</div></div><div class="score-card"><div class="score-num ' + getScoreClass(data.scores.ux) + '">' + data.scores.ux + '</div><div class="score-label">UX Score</div></div><div class="score-card"><div class="score-num ' + getScoreClass(data.scores.marketing) + '">' + data.scores.marketing + '</div><div class="score-label">Marketing</div></div><div class="score-card"><div class="score-num ' + getScoreClass(data.scores.qa) + '">' + data.scores.qa + '</div><div class="score-label">QA Score</div></div></div>' + sectionsHTML + '<div class="section fade-in"><div class="section-header"><div class="section-icon">🚀</div><div class="section-title">Your Action Plan</div></div><div class="section-content">' + actionsHTML + '</div></div><div style="text-align:center"><a href="index.html" class="new-audit-btn">🔥 Audit Another Product</a></div>';
-      document.getElementById('reportOutput').innerHTML = reportHTML;
+      document.getElementById('reportOutput').innerHTML = '<div class="report-header fade-in"><div class="report-tag">✦ AI Audit Complete</div><h1>Report: ' + meta.productName + '</h1><div class="report-meta"><div class="meta-item">🌐 <strong>' + meta.url + '</strong></div><div class="meta-item">🏷️ <strong>' + meta.niche + '</strong></div><div class="meta-item">👥 <strong>' + meta.audience + '</strong></div></div></div><div class="score-grid fade-in"><div class="score-card"><div class="score-num ' + getScoreClass(overall) + '">' + overall + '</div><div class="score-label">Overall</div></div><div class="score-card"><div class="score-num ' + getScoreClass(data.scores.ux) + '">' + data.scores.ux + '</div><div class="score-label">UX</div></div><div class="score-card"><div class="score-num ' + getScoreClass(data.scores.marketing) + '">' + data.scores.marketing + '</div><div class="score-label">Marketing</div></div><div class="score-card"><div class="score-num ' + getScoreClass(data.scores.qa) + '">' + data.scores.qa + '</div><div class="score-label">QA</div></div></div>' + sectionsHTML + '<div class="section fade-in"><div class="section-header"><div class="section-icon">🚀</div><div class="section-title">Your Action Plan</div></div><div class="section-content">' + aHTML + '</div></div><div style="text-align:center"><a href="index.html" class="new-audit-btn">🔥 Audit Another Product</a></div>';
       document.getElementById('reportOutput').style.display = 'block';
     }
 
-    function generateReport(apiKey) {
-      var raw = localStorage.getItem('roastData');
-      if (!raw) {
-        showError('No submission data found. Please go back and fill out the form.');
-        return;
-      }
-      var data = JSON.parse(raw);
-      var prompt = 'You are a brutally honest but helpful product auditor specializing in UX, marketing copy, and QA.\n\nProduct for review:\n- Name: ' + data.productName + '\n- URL: ' + data.url + '\n- Niche: ' + data.niche + '\n- Audience: ' + data.audience + '\n- Audit Types: ' + data.auditTypes.join(', ') + '\n- Challenge: ' + (data.goals || 'Not specified') + '\n\nGenerate a realistic insightful audit. Respond ONLY with valid JSON, no extra text:\n{"scores":{"ux":7,"marketing":6,"qa":8},"sections":[{"icon":"🎨","title":"UX Review","score":7,"summary":"2-3 sentence assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"📢","title":"Marketing Copy","score":6,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"🐛","title":"QA Report","score":8,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]}],"actions":[{"title":"Action 1","detail":"Detail."},{"title":"Action 2","detail":"Detail."},{"title":"Action 3","detail":"Detail."},{"title":"Action 4","detail":"Detail."},{"title":"Action 5","detail":"Detail."}]}';
+    var PROMPT_TEMPLATE = 'You are a brutally honest product auditor specializing in UX, marketing copy, and QA.\n\nProduct for review:\n- Name: {name}\n- URL: {url}\n- Niche: {niche}\n- Audience: {audience}\n- Audit Types: {audits}\n- Challenge: {goals}\n\nGenerate a realistic insightful audit. Respond ONLY with valid JSON, no markdown, no extra text:\n{"scores":{"ux":7,"marketing":6,"qa":8},"sections":[{"icon":"🎨","title":"UX Review","score":7,"summary":"2-3 sentence assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"📢","title":"Marketing Copy","score":6,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"🐛","title":"QA Report","score":8,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]}],"actions":[{"title":"Action 1","detail":"Detail."},{"title":"Action 2","detail":"Detail."},{"title":"Action 3","detail":"Detail."},{"title":"Action 4","detail":"Detail."},{"title":"Action 5","detail":"Detail."}]}';
 
+    function buildPrompt(data) {
+      return PROMPT_TEMPLATE
+        .replace('{name}', data.productName)
+        .replace('{url}', data.url)
+        .replace('{niche}', data.niche)
+        .replace('{audience}', data.audience)
+        .replace('{audits}', data.auditTypes.join(', '))
+        .replace('{goals}', data.goals || 'Not specified');
+    }
+
+    function callOpenAI(apiKey, prompt, data) {
       fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
@@ -252,37 +328,62 @@
           max_tokens: 2048
         })
       })
-      .then(function(response) {
-        if (!response.ok) {
-          return response.json().then(function(err) {
-            throw new Error(err.error ? err.error.message : 'API request failed');
-          });
-        }
-        return response.json();
+      .then(function(r) {
+        if (!r.ok) return r.json().then(function(e) { throw new Error(e.error ? e.error.message : 'OpenAI API error ' + r.status); });
+        return r.json();
       })
       .then(function(result) {
         var text = result.choices && result.choices[0] && result.choices[0].message ? result.choices[0].message.content : null;
-        if (!text) throw new Error('No response from AI');
-        var parsed = JSON.parse(text.trim());
-        renderReport(parsed, data);
+        if (!text) throw new Error('No response from OpenAI');
+        renderReport(JSON.parse(text.trim()), data);
       })
-      .catch(function(err) {
-        showError('AI Error: ' + err.message);
-      });
+      .catch(function(err) { showError('OpenAI Error: ' + err.message); });
     }
 
-    // On page load: check if key already saved, else show setup screen
-    window.onload = function() {
-      var savedKey = localStorage.getItem('openai_key');
+    function callGemini(apiKey, prompt, data) {
+      fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+        })
+      })
+      .then(function(r) {
+        if (!r.ok) return r.json().then(function(e) { throw new Error(e.error ? e.error.message : 'Gemini API error ' + r.status); });
+        return r.json();
+      })
+      .then(function(result) {
+        var text = result.candidates && result.candidates[0] && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts[0] ? result.candidates[0].content.parts[0].text : null;
+        if (!text) throw new Error('No response from Gemini');
+        var cleaned = text.split('```json').join('').split('```').join('').trim();
+        renderReport(JSON.parse(cleaned), data);
+      })
+      .catch(function(err) { showError('Gemini Error: ' + err.message); });
+    }
+
+    function generateReport(apiKey, provider) {
       var raw = localStorage.getItem('roastData');
-      if (!raw) {
-        window.location.href = 'index.html';
-        return;
+      if (!raw) { showError('No submission data found. Please go back and fill out the form.'); return; }
+      var data = JSON.parse(raw);
+      var prompt = buildPrompt(data);
+      if (provider === 'gemini') {
+        callGemini(apiKey, prompt, data);
+      } else {
+        callOpenAI(apiKey, prompt, data);
       }
-      if (savedKey && savedKey.indexOf('sk-') === 0) {
+    }
+
+    window.onload = function() {
+      var raw = localStorage.getItem('roastData');
+      if (!raw) { window.location.href = 'index.html'; return; }
+      var savedKey = localStorage.getItem('roast_api_key');
+      var savedProvider = localStorage.getItem('roast_provider') || 'openai';
+      if (savedKey && savedKey.length > 10) {
+        selectedProvider = savedProvider;
         document.getElementById('loadingScreen').style.display = 'block';
         startLoadingAnimation();
-        generateReport(savedKey);
+        generateReport(savedKey, savedProvider);
       } else {
         document.getElementById('setupScreen').style.display = 'block';
       }
