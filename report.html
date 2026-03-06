@@ -106,9 +106,9 @@
 
   <script>
     // =============================================
-    // PASTE YOUR GEMINI API KEY BELOW
+    // PASTE YOUR OPENAI API KEY BELOW
     // =============================================
-    var GEMINI_API_KEY = 'AIzaSyCJXLxEeelpsEDjKfcTsC1Tv6Qpy8I-N7c';
+    var OPENAI_API_KEY = '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';
     // =============================================
 
     var loadingSteps = ['ls1','ls2','ls3','ls4','ls5'];
@@ -159,25 +159,9 @@
       document.getElementById('reportOutput').style.display = 'block';
     }
 
-    function cleanJSON(text) {
-      var result = '';
-      var inBacktick = false;
-      var i = 0;
-      while (i < text.length) {
-        if (text[i] === '`') {
-          inBacktick = !inBacktick;
-          i++;
-          continue;
-        }
-        if (!inBacktick) result += text[i];
-        i++;
-      }
-      return result.replace('json', '').trim();
-    }
-
     function generateReport() {
-      if (GEMINI_API_KEY === 'PASTE_YOUR_KEY_HERE') {
-        showError('You have not added your Gemini API key yet! Open report.html in VS Code and replace PASTE_YOUR_KEY_HERE with your actual key.');
+      if (OPENAI_API_KEY === 'PASTE_YOUR_OPENAI_KEY_HERE') {
+        showError('You have not added your OpenAI API key yet! Open report.html in VS Code and replace PASTE_YOUR_OPENAI_KEY_HERE with your actual key.');
         return;
       }
       var raw = localStorage.getItem('roastData');
@@ -186,14 +170,22 @@
         return;
       }
       var data = JSON.parse(raw);
-      var prompt = 'You are a brutally honest but helpful product auditor specializing in UX, marketing copy, and QA.\n\nA founder has submitted their product for review:\n- Product Name: ' + data.productName + '\n- URL: ' + data.url + '\n- Niche: ' + data.niche + '\n- Target Audience: ' + data.audience + '\n- Audit Types: ' + data.auditTypes.join(', ') + '\n- Their Challenge: ' + (data.goals || 'Not specified') + '\n\nGenerate a realistic and insightful audit report. Respond ONLY with valid JSON, no markdown formatting, no extra text:\n{"scores":{"ux":7,"marketing":6,"qa":8},"sections":[{"icon":"🎨","title":"UX Review","score":7,"summary":"2-3 sentence UX assessment.","findings":[{"type":"issue","title":"Short title","detail":"1-2 sentence explanation."},{"type":"warning","title":"Short title","detail":"Explanation."},{"type":"good","title":"Short title","detail":"Explanation."}]},{"icon":"📢","title":"Marketing Copy","score":6,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"🐛","title":"QA Report","score":8,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]}],"actions":[{"title":"Action 1","detail":"Specific action."},{"title":"Action 2","detail":"Specific action."},{"title":"Action 3","detail":"Specific action."},{"title":"Action 4","detail":"Specific action."},{"title":"Action 5","detail":"Specific action."}]}';
+      var prompt = 'You are a brutally honest but helpful product auditor specializing in UX, marketing copy, and QA.\n\nA founder has submitted their product for review:\n- Product Name: ' + data.productName + '\n- URL: ' + data.url + '\n- Niche: ' + data.niche + '\n- Target Audience: ' + data.audience + '\n- Audit Types: ' + data.auditTypes.join(', ') + '\n- Their Challenge: ' + (data.goals || 'Not specified') + '\n\nGenerate a realistic, specific, and insightful audit report based on the product niche and audience. Respond ONLY with valid JSON, no extra text:\n{"scores":{"ux":7,"marketing":6,"qa":8},"sections":[{"icon":"🎨","title":"UX Review","score":7,"summary":"2-3 sentence UX assessment.","findings":[{"type":"issue","title":"Short title","detail":"1-2 sentence explanation."},{"type":"warning","title":"Short title","detail":"Explanation."},{"type":"good","title":"Short title","detail":"Explanation."}]},{"icon":"📢","title":"Marketing Copy","score":6,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"🐛","title":"QA Report","score":8,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]}],"actions":[{"title":"Action 1","detail":"Specific action."},{"title":"Action 2","detail":"Specific action."},{"title":"Action 3","detail":"Specific action."},{"title":"Action 4","detail":"Specific action."},{"title":"Action 5","detail":"Specific action."}]}';
 
-      fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_API_KEY, {
+      fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + OPENAI_API_KEY
+        },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+          model: 'gpt-3.5-turbo',
+          messages: [
+            { role: 'system', content: 'You are a product audit expert. Always respond with valid JSON only, no markdown, no extra text.' },
+            { role: 'user', content: prompt }
+          ],
+          temperature: 0.7,
+          max_tokens: 2048
         })
       })
       .then(function(response) {
@@ -205,10 +197,9 @@
         return response.json();
       })
       .then(function(result) {
-        var text = result.candidates && result.candidates[0] && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts[0] ? result.candidates[0].content.parts[0].text : null;
+        var text = result.choices && result.choices[0] && result.choices[0].message ? result.choices[0].message.content : null;
         if (!text) throw new Error('No response from AI');
-        var cleaned = cleanJSON(text);
-        var parsed = JSON.parse(cleaned);
+        var parsed = JSON.parse(text.trim());
         renderReport(parsed, data);
       })
       .catch(function(err) {
