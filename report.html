@@ -16,16 +16,12 @@
     .back-btn { font-size: 0.82rem; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: 0.4rem 1rem; border-radius: 999px; transition: all 0.15s; }
     .back-btn:hover { color: var(--text); border-color: #444; }
     main { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 7rem 1.5rem 4rem; }
-
-    /* Setup Screen */
     .setup-screen { text-align: center; padding: 2rem 1rem; }
     .setup-icon { font-size: 3rem; margin-bottom: 1.5rem; }
     .setup-screen h2 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.8rem; }
     .setup-screen > p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 460px; margin: 0 auto 2rem; }
     .setup-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; max-width: 500px; margin: 0 auto; position: relative; overflow: hidden; text-align: left; }
     .setup-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2), transparent); }
-
-    /* Provider selector */
     .provider-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.5rem; }
     .provider-tab { border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem 1rem; cursor: pointer; transition: all 0.15s; text-align: center; }
     .provider-tab:hover { border-color: #444; }
@@ -33,7 +29,6 @@
     .provider-tab-icon { font-size: 1.4rem; margin-bottom: 0.3rem; }
     .provider-tab-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
     .provider-tab-hint { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
-
     .setup-label { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #aaa; margin-bottom: 0.5rem; display: block; }
     .setup-input { width: 100%; background: #0a0a0a; border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.92rem; padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; margin-bottom: 1rem; }
     .setup-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,77,0,0.1); }
@@ -43,12 +38,8 @@
     .setup-hint { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; line-height: 1.7; }
     .setup-hint a { color: var(--accent); text-decoration: none; }
     .setup-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 0.7rem 1rem; font-size: 0.82rem; color: var(--red); margin-bottom: 1rem; display: none; }
-
-    /* Detected badge */
     .detected-badge { display: none; align-items: center; gap: 0.5rem; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.8rem; color: var(--green); margin-bottom: 1rem; }
     .detected-badge.show { display: flex; }
-
-    /* Loading */
     .loading-screen { text-align: center; padding: 4rem 2rem; }
     .loading-icon { font-size: 3rem; margin-bottom: 1.5rem; animation: bounce 1s ease infinite; }
     .loading-screen h2 { font-family: 'Syne', sans-serif; font-size: 1.8rem; margin-bottom: 0.8rem; }
@@ -61,8 +52,6 @@
     .loading-step.active { color: var(--text); }
     .step-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
     .loading-step.active .step-dot { animation: pulse 1s ease infinite; }
-
-    /* Report */
     .report-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
     .report-tag { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; font-weight: 500; }
     .report-header h1 { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
@@ -119,16 +108,12 @@
     <a href="index.html" class="back-btn">← New Audit</a>
   </nav>
   <main>
-
-    <!-- Setup Screen -->
     <div id="setupScreen" class="setup-screen">
       <div class="setup-icon">🔑</div>
       <h2>Connect your AI</h2>
-      <p>Pick your AI provider and paste your API key. It's saved only in your browser — never in the code, never on GitHub.</p>
+      <p>Pick your AI provider and paste your API key. Saved only in your browser — never in the code, never on GitHub.</p>
       <div class="setup-card">
         <div id="setupError" class="setup-error"></div>
-
-        <!-- Provider tabs -->
         <div class="provider-tabs">
           <div class="provider-tab active" id="tab-openai" onclick="selectProvider('openai')">
             <div class="provider-tab-icon">🤖</div>
@@ -141,22 +126,20 @@
             <div class="provider-tab-hint">Gemini 2.0 Flash</div>
           </div>
         </div>
-
         <div id="detectedBadge" class="detected-badge">
-          <span>✅</span> <span id="detectedText">OpenAI key detected</span>
+          <span>✅</span> <span id="detectedText">Key detected</span>
         </div>
-
         <label class="setup-label" id="keyLabel">OpenAI API Key</label>
         <input class="setup-input" id="apiKeyInput" type="password" placeholder="sk-..." oninput="autoDetect()" />
         <button class="setup-btn" onclick="saveKeyAndStart()">🔥 Start My Audit</button>
-        <div class="setup-hint" id="setupHint">
-          Get your free key at <a href="https://platform.openai.com/api-keys" target="_blank" id="keyLink">platform.openai.com/api-keys</a><br/>
+        <div class="setup-hint">
+          Get a free Gemini key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>
+          &nbsp;|&nbsp; OpenAI key at <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a><br/>
           Your key stays in this browser only. Safe. Private. Never shared.
         </div>
       </div>
     </div>
 
-    <!-- Loading Screen -->
     <div id="loadingScreen" class="loading-screen" style="display:none">
       <div class="loading-icon">🔥</div>
       <h2>Roasting your product...</h2>
@@ -171,7 +154,6 @@
       </div>
     </div>
 
-    <!-- Error Screen -->
     <div id="errorScreen" class="error-screen" style="display:none">
       <div style="font-size:3rem;margin-bottom:1rem">😬</div>
       <h2>Something went wrong</h2>
@@ -182,7 +164,6 @@
       </div>
     </div>
 
-    <!-- Report Output -->
     <div id="reportOutput" style="display:none"></div>
   </main>
 
@@ -193,35 +174,24 @@
       selectedProvider = provider;
       document.getElementById('tab-openai').className = 'provider-tab' + (provider === 'openai' ? ' active' : '');
       document.getElementById('tab-gemini').className = 'provider-tab' + (provider === 'gemini' ? ' active' : '');
-      if (provider === 'openai') {
-        document.getElementById('keyLabel').textContent = 'OpenAI API Key';
-        document.getElementById('apiKeyInput').placeholder = 'sk-...';
-        document.getElementById('keyLink').href = 'https://platform.openai.com/api-keys';
-        document.getElementById('keyLink').textContent = 'platform.openai.com/api-keys';
-      } else {
-        document.getElementById('keyLabel').textContent = 'Google Gemini API Key';
-        document.getElementById('apiKeyInput').placeholder = 'AIza...';
-        document.getElementById('keyLink').href = 'https://aistudio.google.com/app/apikey';
-        document.getElementById('keyLink').textContent = 'aistudio.google.com';
-      }
-      autoDetect();
+      document.getElementById('keyLabel').textContent = provider === 'openai' ? 'OpenAI API Key' : 'Google Gemini API Key';
+      document.getElementById('apiKeyInput').placeholder = provider === 'openai' ? 'sk-...' : 'AIza...';
     }
 
     function autoDetect() {
       var val = document.getElementById('apiKeyInput').value.trim();
       var badge = document.getElementById('detectedBadge');
-      var detectedText = document.getElementById('detectedText');
       if (val.indexOf('sk-') === 0 && val.length > 20) {
         selectedProvider = 'openai';
         document.getElementById('tab-openai').className = 'provider-tab active';
         document.getElementById('tab-gemini').className = 'provider-tab';
-        detectedText.textContent = 'OpenAI key detected automatically';
+        document.getElementById('detectedText').textContent = 'OpenAI key detected';
         badge.className = 'detected-badge show';
       } else if (val.indexOf('AIza') === 0 && val.length > 20) {
         selectedProvider = 'gemini';
         document.getElementById('tab-openai').className = 'provider-tab';
         document.getElementById('tab-gemini').className = 'provider-tab active';
-        detectedText.textContent = 'Google Gemini key detected automatically';
+        document.getElementById('detectedText').textContent = 'Gemini key detected';
         badge.className = 'detected-badge show';
       } else {
         badge.className = 'detected-badge';
@@ -302,24 +272,19 @@
       document.getElementById('reportOutput').style.display = 'block';
     }
 
-    var PROMPT_TEMPLATE = 'You are a brutally honest product auditor specializing in UX, marketing copy, and QA.\n\nProduct for review:\n- Name: {name}\n- URL: {url}\n- Niche: {niche}\n- Audience: {audience}\n- Audit Types: {audits}\n- Challenge: {goals}\n\nGenerate a realistic insightful audit. Respond ONLY with valid JSON, no markdown, no extra text:\n{"scores":{"ux":7,"marketing":6,"qa":8},"sections":[{"icon":"🎨","title":"UX Review","score":7,"summary":"2-3 sentence assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"📢","title":"Marketing Copy","score":6,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"🐛","title":"QA Report","score":8,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]}],"actions":[{"title":"Action 1","detail":"Detail."},{"title":"Action 2","detail":"Detail."},{"title":"Action 3","detail":"Detail."},{"title":"Action 4","detail":"Detail."},{"title":"Action 5","detail":"Detail."}]}';
+    var PROMPT = 'You are a brutally honest product auditor for UX, marketing copy, and QA.\n\nProduct:\n- Name: {name}\n- URL: {url}\n- Niche: {niche}\n- Audience: {audience}\n- Audit Types: {audits}\n- Challenge: {goals}\n\nRespond ONLY with valid JSON, no markdown, no extra text:\n{"scores":{"ux":7,"marketing":6,"qa":8},"sections":[{"icon":"🎨","title":"UX Review","score":7,"summary":"2-3 sentence assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"📢","title":"Marketing Copy","score":6,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"🐛","title":"QA Report","score":8,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]}],"actions":[{"title":"Action 1","detail":"Detail."},{"title":"Action 2","detail":"Detail."},{"title":"Action 3","detail":"Detail."},{"title":"Action 4","detail":"Detail."},{"title":"Action 5","detail":"Detail."}]}';
 
     function buildPrompt(data) {
-      return PROMPT_TEMPLATE
-        .replace('{name}', data.productName)
-        .replace('{url}', data.url)
-        .replace('{niche}', data.niche)
-        .replace('{audience}', data.audience)
-        .replace('{audits}', data.auditTypes.join(', '))
-        .replace('{goals}', data.goals || 'Not specified');
+      return PROMPT.replace('{name}', data.productName).replace('{url}', data.url).replace('{niche}', data.niche).replace('{audience}', data.audience).replace('{audits}', data.auditTypes.join(', ')).replace('{goals}', data.goals || 'Not specified');
     }
 
-    function callOpenAI(apiKey, prompt, data) {
-      fetch('https://api.openai.com/v1/chat/completions', {
+    // Both OpenAI and Gemini use the same OpenAI-compatible format
+    function callAI(apiKey, prompt, data, endpoint, model) {
+      fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
         body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
+          model: model,
           messages: [
             { role: 'system', content: 'You are a product audit expert. Always respond with valid JSON only, no markdown, no extra text.' },
             { role: 'user', content: prompt }
@@ -329,37 +294,15 @@
         })
       })
       .then(function(r) {
-        if (!r.ok) return r.json().then(function(e) { throw new Error(e.error ? e.error.message : 'OpenAI API error ' + r.status); });
+        if (!r.ok) return r.json().then(function(e) { throw new Error(e.error ? (e.error.message || JSON.stringify(e.error)) : 'API error ' + r.status); });
         return r.json();
       })
       .then(function(result) {
         var text = result.choices && result.choices[0] && result.choices[0].message ? result.choices[0].message.content : null;
-        if (!text) throw new Error('No response from OpenAI');
+        if (!text) throw new Error('No response from AI');
         renderReport(JSON.parse(text.trim()), data);
       })
-      .catch(function(err) { showError('OpenAI Error: ' + err.message); });
-    }
-
-    function callGemini(apiKey, prompt, data) {
-      fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-latest:generateContent?key=' + apiKey, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
-        })
-      })
-      .then(function(r) {
-        if (!r.ok) return r.json().then(function(e) { throw new Error(e.error ? e.error.message : 'Gemini API error ' + r.status); });
-        return r.json();
-      })
-      .then(function(result) {
-        var text = result.candidates && result.candidates[0] && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts[0] ? result.candidates[0].content.parts[0].text : null;
-        if (!text) throw new Error('No response from Gemini');
-        var cleaned = text.split('```json').join('').split('```').join('').trim();
-        renderReport(JSON.parse(cleaned), data);
-      })
-      .catch(function(err) { showError('Gemini Error: ' + err.message); });
+      .catch(function(err) { showError('Error: ' + err.message); });
     }
 
     function generateReport(apiKey, provider) {
@@ -368,9 +311,10 @@
       var data = JSON.parse(raw);
       var prompt = buildPrompt(data);
       if (provider === 'gemini') {
-        callGemini(apiKey, prompt, data);
+        // Gemini OpenAI-compatible endpoint - works with all Gemini models
+        callAI(apiKey, prompt, data, 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', 'gemini-2.0-flash');
       } else {
-        callOpenAI(apiKey, prompt, data);
+        callAI(apiKey, prompt, data, 'https://api.openai.com/v1/chat/completions', 'gpt-3.5-turbo');
       }
     }
 
