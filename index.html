@@ -7,632 +7,146 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --border: #1e1e1e;
-      --accent: #ff4d00;
-      --accent2: #ff8c00;
-      --text: #f0ede8;
-      --muted: #666;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* Animated background */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 10% 0%, rgba(255,77,0,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 90% 100%, rgba(255,140,0,0.08) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Grain texture */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.4;
-    }
-
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.2rem 2.5rem;
-      border-bottom: 1px solid var(--border);
-      background: rgba(10,10,10,0.85);
-      backdrop-filter: blur(12px);
-    }
-
-    .logo {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .logo span {
-      color: var(--accent);
-    }
-
-    .badge {
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid rgba(255,77,0,0.3);
-      padding: 0.3rem 0.8rem;
-      border-radius: 999px;
-      background: rgba(255,77,0,0.08);
-    }
-
-    main {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 8rem 1.5rem 4rem;
-    }
-
-    .hero {
-      text-align: center;
-      max-width: 680px;
-      margin-bottom: 3.5rem;
-      animation: fadeUp 0.8s ease both;
-    }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-    }
-
-    .hero-tag::before {
-      content: '';
-      width: 6px; height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: pulse 1.5s ease infinite;
-    }
-
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2.8rem, 7vw, 5rem);
-      font-weight: 800;
-      line-height: 1.0;
-      letter-spacing: -0.03em;
-      margin-bottom: 1.2rem;
-    }
-
-    h1 em {
-      font-style: normal;
-      color: var(--accent);
-      position: relative;
-    }
-
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--muted);
-      line-height: 1.7;
-      font-weight: 300;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    /* Stats row */
-    .stats {
-      display: flex;
-      gap: 2rem;
-      margin-top: 2rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeUp 0.8s 0.15s ease both;
-    }
-
-    .stat {
-      text-align: center;
-    }
-
-    .stat-num {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--text);
-    }
-
-    .stat-label {
-      font-size: 0.72rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-top: 0.1rem;
-    }
-
-    /* Form card */
-    .form-card {
-      width: 100%;
-      max-width: 620px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2.5rem;
-      animation: fadeUp 0.8s 0.25s ease both;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .form-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2), transparent);
-    }
-
-    .form-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-    }
-
-    .form-subtitle {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 2rem;
-    }
-
-    .field {
-      margin-bottom: 1.4rem;
-    }
-
-    label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #aaa;
-      margin-bottom: 0.5rem;
-    }
-
-    label span {
-      color: var(--accent);
-    }
-
-    input, select, textarea {
-      width: 100%;
-      background: #0a0a0a;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      padding: 0.85rem 1rem;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      -webkit-appearance: none;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(255,77,0,0.1);
-    }
-
-    input::placeholder, textarea::placeholder {
-      color: #444;
-    }
-
-    select option {
-      background: #111;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    /* Niche pills */
-    .pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .pill {
-      cursor: pointer;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 0.45rem 1rem;
-      font-size: 0.82rem;
-      color: var(--muted);
-      transition: all 0.15s;
-      user-select: none;
-      background: transparent;
-    }
-
-    .pill:hover {
-      border-color: #444;
-      color: var(--text);
-    }
-
-    .pill.active {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(255,77,0,0.08);
-    }
-
-    /* Audit type checkboxes */
-    .audit-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.6rem;
-    }
-
-    .audit-opt {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.7rem 1rem;
-      cursor: pointer;
-      transition: all 0.15s;
-      user-select: none;
-    }
-
-    .audit-opt:hover {
-      border-color: #333;
-    }
-
-    .audit-opt.active {
-      border-color: var(--accent);
-      background: rgba(255,77,0,0.06);
-    }
-
-    .audit-opt input[type="checkbox"] {
-      width: 16px; height: 16px;
-      accent-color: var(--accent);
-      padding: 0;
-      border-radius: 4px;
-      flex-shrink: 0;
-    }
-
-    .audit-opt-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .audit-opt-title {
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    .audit-opt-desc {
-      font-size: 0.7rem;
-      color: var(--muted);
-    }
-
-    /* Divider */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 1.8rem 0;
-    }
-
-    /* Submit button */
-    .submit-btn {
-      width: 100%;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 1rem 1.5rem;
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      cursor: pointer;
-      transition: all 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .submit-btn:hover {
-      background: #ff6020;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 25px rgba(255,77,0,0.35);
-    }
-
-    .submit-btn:active {
-      transform: translateY(0);
-    }
-
-    .submit-btn.loading {
-      pointer-events: none;
-      opacity: 0.7;
-    }
-
-    /* Progress steps */
-    .steps {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      margin-bottom: 2rem;
-    }
-
-    .step {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
+    :root { --bg: #0a0a0a; --surface: #111111; --border: #1e1e1e; --accent: #ff4d00; --accent2: #ff8c00; --text: #f0ede8; --muted: #666; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 10% 0%, rgba(255,77,0,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 90% 100%, rgba(255,140,0,0.08) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 2.5rem; border-bottom: 1px solid var(--border); background: rgba(10,10,10,0.85); backdrop-filter: blur(12px); }
+    .logo { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em; }
+    .logo span { color: var(--accent); }
+    .badge { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(255,77,0,0.3); padding: 0.3rem 0.8rem; border-radius: 999px; background: rgba(255,77,0,0.08); }
+    main { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 8rem 1.5rem 4rem; }
+    .hero { text-align: center; max-width: 680px; margin-bottom: 3.5rem; animation: fadeUp 0.8s ease both; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; font-weight: 500; }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 1.5s ease infinite; }
+    h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 1.2rem; }
+    h1 em { font-style: normal; color: var(--accent); }
+    .hero p { font-size: 1.1rem; color: var(--muted); line-height: 1.7; font-weight: 300; max-width: 500px; margin: 0 auto; }
+    .stats { display: flex; gap: 2rem; margin-top: 2rem; justify-content: center; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; }
+    .stat-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.1rem; }
+    .form-card { width: 100%; max-width: 620px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; animation: fadeUp 0.8s 0.25s ease both; position: relative; overflow: hidden; }
+    .form-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2), transparent); }
+    .form-title { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .form-subtitle { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
+    .field { margin-bottom: 1.4rem; }
+    label { display: block; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #aaa; margin-bottom: 0.5rem; }
+    label span { color: var(--accent); }
+    input, textarea { width: 100%; background: #0a0a0a; border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,77,0,0.1); }
+    input::placeholder, textarea::placeholder { color: #444; }
+    textarea { resize: vertical; min-height: 100px; }
+    .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .pill { cursor: pointer; border: 1px solid var(--border); border-radius: 999px; padding: 0.45rem 1rem; font-size: 0.82rem; color: var(--muted); transition: all 0.15s; user-select: none; background: transparent; }
+    .pill:hover { border-color: #444; color: var(--text); }
+    .pill.active { border-color: var(--accent); color: var(--accent); background: rgba(255,77,0,0.08); }
+    .audit-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .audit-opt { display: flex; align-items: center; gap: 0.6rem; border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 1rem; cursor: pointer; transition: all 0.15s; user-select: none; }
+    .audit-opt.active { border-color: var(--accent); background: rgba(255,77,0,0.06); }
+    .audit-opt input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); padding: 0; flex-shrink: 0; }
+    .audit-opt-title { font-size: 0.82rem; font-weight: 500; color: var(--text); }
+    .audit-opt-desc { font-size: 0.7rem; color: var(--muted); }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 1.8rem 0; }
+    .submit-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 10px; padding: 1rem 1.5rem; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .submit-btn:hover { background: #ff6020; transform: translateY(-1px); box-shadow: 0 8px 25px rgba(255,77,0,0.35); }
+    .submit-btn.loading { pointer-events: none; opacity: 0.7; }
+    .steps { display: flex; align-items: center; margin-bottom: 2rem; }
+    .step { display: flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
     .step.active { color: var(--accent); }
-
-    .step-num {
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      border: 1px solid currentColor;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.65rem;
-      flex-shrink: 0;
-    }
-
-    .step-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-      margin: 0 0.5rem;
-      min-width: 20px;
-    }
-
-    /* Success state */
-    .success-screen {
-      display: none;
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .success-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    .success-screen h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .success-screen p {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    /* Animations */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.7); }
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      vertical-align: middle;
-      margin-right: 8px;
-    }
-
-    /* Footer */
-    footer {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.75rem;
-      color: #333;
-    }
-
+    .step-num { width: 22px; height: 22px; border-radius: 50%; border: 1px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; flex-shrink: 0; }
+    .step-line { flex: 1; height: 1px; background: var(--border); margin: 0 0.5rem; min-width: 20px; }
+    .error-msg { background: rgba(255,77,0,0.1); border: 1px solid rgba(255,77,0,0.3); border-radius: 8px; padding: 0.8rem 1rem; font-size: 0.85rem; color: #ff6b4a; margin-bottom: 1rem; display: none; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
+    footer { position: relative; z-index: 1; text-align: center; padding: 2rem; font-size: 0.75rem; color: #333; }
     footer span { color: var(--accent); }
-
-    @media (max-width: 500px) {
-      nav { padding: 1rem 1.2rem; }
-      .form-card { padding: 1.5rem; }
-      .audit-options { grid-template-columns: 1fr; }
-      h1 { font-size: 2.5rem; }
-    }
   </style>
 </head>
 <body>
-
   <nav>
     <div class="logo">Roast<span>My</span>App</div>
     <div class="badge">✦ AI-Powered Audit</div>
   </nav>
-
   <main>
     <div class="hero">
       <div class="hero-tag">Free instant audit</div>
       <h1>We'll <em>roast</em><br/>your product.</h1>
       <p>Submit your app or website and our AI will tear apart your UX, marketing copy, and QA — then hand you a full action plan.</p>
-
       <div class="stats">
-        <div class="stat">
-          <div class="stat-num">3 min</div>
-          <div class="stat-label">Avg. report time</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">100%</div>
-          <div class="stat-label">Free to try</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">3-in-1</div>
-          <div class="stat-label">UX + Marketing + QA</div>
-        </div>
+        <div class="stat"><div class="stat-num">~60s</div><div class="stat-label">Report time</div></div>
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Free to try</div></div>
+        <div class="stat"><div class="stat-num">3-in-1</div><div class="stat-label">UX + Marketing + QA</div></div>
       </div>
     </div>
-
     <div class="form-card">
-      <!-- Progress steps -->
       <div class="steps">
-        <div class="step active">
-          <div class="step-num">1</div> Submit
-        </div>
+        <div class="step active"><div class="step-num">1</div>&nbsp;Submit</div>
         <div class="step-line"></div>
-        <div class="step">
-          <div class="step-num">2</div> AI Analyzes
-        </div>
+        <div class="step"><div class="step-num">2</div>&nbsp;AI Analyzes</div>
         <div class="step-line"></div>
-        <div class="step">
-          <div class="step-num">3</div> Get Report
-        </div>
+        <div class="step"><div class="step-num">3</div>&nbsp;Get Report</div>
       </div>
-
       <div class="form-title">Tell us about your product</div>
       <div class="form-subtitle">The more detail you give, the sharper the roast 🔥</div>
-
-      <div id="formBody">
-        <!-- URL -->
-        <div class="field">
-          <label>Your website / app URL <span>*</span></label>
-          <input type="url" id="url" placeholder="https://yourproduct.com" required />
-        </div>
-
-        <!-- Product name -->
-        <div class="field">
-          <label>Product name <span>*</span></label>
-          <input type="text" id="productName" placeholder="e.g. TaskFlow, BudgetBuddy..." />
-        </div>
-
-        <!-- Niche -->
-        <div class="field">
-          <label>Your niche / industry <span>*</span></label>
-          <div class="pills" id="nichePills">
-            <div class="pill" data-value="SaaS">SaaS</div>
-            <div class="pill" data-value="E-commerce">E-commerce</div>
-            <div class="pill" data-value="EdTech">EdTech</div>
-            <div class="pill" data-value="FinTech">FinTech</div>
-            <div class="pill" data-value="Health">Health</div>
-            <div class="pill" data-value="Productivity">Productivity</div>
-            <div class="pill" data-value="Social">Social</div>
-            <div class="pill" data-value="Other">Other</div>
-          </div>
-        </div>
-
-        <!-- Target audience -->
-        <div class="field">
-          <label>Who is your target audience? <span>*</span></label>
-          <input type="text" id="audience" placeholder="e.g. Freelancers, College students, Small businesses..." />
-        </div>
-
-        <!-- Audit type -->
-        <div class="field">
-          <label>What should we audit? <span>*</span></label>
-          <div class="audit-options">
-            <label class="audit-opt active" id="opt-ux">
-              <input type="checkbox" value="ux" checked />
-              <div class="audit-opt-text">
-                <div class="audit-opt-title">🎨 UX Review</div>
-                <div class="audit-opt-desc">Layout, flow, usability</div>
-              </div>
-            </label>
-            <label class="audit-opt active" id="opt-marketing">
-              <input type="checkbox" value="marketing" checked />
-              <div class="audit-opt-text">
-                <div class="audit-opt-title">📢 Marketing Copy</div>
-                <div class="audit-opt-desc">Messaging & conversion</div>
-              </div>
-            </label>
-            <label class="audit-opt active" id="opt-qa">
-              <input type="checkbox" value="qa" checked />
-              <div class="audit-opt-text">
-                <div class="audit-opt-title">🐛 QA Report</div>
-                <div class="audit-opt-desc">Bugs & inconsistencies</div>
-              </div>
-            </label>
-            <label class="audit-opt" id="opt-seo">
-              <input type="checkbox" value="seo" />
-              <div class="audit-opt-text">
-                <div class="audit-opt-title">🔍 SEO Basics</div>
-                <div class="audit-opt-desc">Visibility & indexability</div>
-              </div>
-            </label>
-          </div>
-        </div>
-
-        <!-- Goals -->
-        <div class="field">
-          <label>What's your biggest challenge right now?</label>
-          <textarea id="goals" placeholder="e.g. Users sign up but don't stick around. Our homepage doesn't explain what we do clearly..."></textarea>
-        </div>
-
-        <hr class="divider" />
-
-        <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">
-          🔥 &nbsp;Roast My Product
-        </button>
+      <div id="errorMsg" class="error-msg"></div>
+      <div class="field">
+        <label>Your website / app URL <span>*</span></label>
+        <input type="url" id="url" placeholder="https://yourproduct.com" />
       </div>
-
-      <!-- Success screen (shown after submit) -->
-      <div class="success-screen" id="successScreen">
-        <div class="success-icon">🎉</div>
-        <h2>You're in the queue!</h2>
-        <p>Your submission has been received.<br/>The AI is analyzing your product now.<br/><br/>
-        <strong style="color: var(--accent)">Step 2 coming soon — the AI report engine!</strong></p>
+      <div class="field">
+        <label>Product name <span>*</span></label>
+        <input type="text" id="productName" placeholder="e.g. TaskFlow, BudgetBuddy..." />
       </div>
+      <div class="field">
+        <label>Your niche / industry <span>*</span></label>
+        <div class="pills" id="nichePills">
+          <div class="pill" data-value="SaaS">SaaS</div>
+          <div class="pill" data-value="E-commerce">E-commerce</div>
+          <div class="pill" data-value="EdTech">EdTech</div>
+          <div class="pill" data-value="FinTech">FinTech</div>
+          <div class="pill" data-value="Health">Health</div>
+          <div class="pill" data-value="Productivity">Productivity</div>
+          <div class="pill" data-value="Social">Social</div>
+          <div class="pill" data-value="Other">Other</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Who is your target audience? <span>*</span></label>
+        <input type="text" id="audience" placeholder="e.g. Freelancers, College students, Small businesses..." />
+      </div>
+      <div class="field">
+        <label>What should we audit? <span>*</span></label>
+        <div class="audit-options">
+          <label class="audit-opt active">
+            <input type="checkbox" value="UX Review" checked />
+            <div><div class="audit-opt-title">🎨 UX Review</div><div class="audit-opt-desc">Layout, flow, usability</div></div>
+          </label>
+          <label class="audit-opt active">
+            <input type="checkbox" value="Marketing Copy" checked />
+            <div><div class="audit-opt-title">📢 Marketing Copy</div><div class="audit-opt-desc">Messaging & conversion</div></div>
+          </label>
+          <label class="audit-opt active">
+            <input type="checkbox" value="QA Report" checked />
+            <div><div class="audit-opt-title">🐛 QA Report</div><div class="audit-opt-desc">Bugs & inconsistencies</div></div>
+          </label>
+          <label class="audit-opt">
+            <input type="checkbox" value="SEO Basics" />
+            <div><div class="audit-opt-title">🔍 SEO Basics</div><div class="audit-opt-desc">Visibility & indexability</div></div>
+          </label>
+        </div>
+      </div>
+      <div class="field">
+        <label>What's your biggest challenge right now?</label>
+        <textarea id="goals" placeholder="e.g. Users sign up but don't stick around..."></textarea>
+      </div>
+      <hr class="divider" />
+      <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">🔥 &nbsp;Roast My Product</button>
     </div>
   </main>
-
-  <footer>
-    Built with 🔥 by <span>RoastMyApp</span> — Powered by AI
-  </footer>
-
+  <footer>Built with 🔥 by <span>RoastMyApp</span> — Powered by AI</footer>
   <script>
-    // Niche pill selection
     let selectedNiche = '';
     document.querySelectorAll('.pill').forEach(pill => {
       pill.addEventListener('click', () => {
@@ -641,48 +155,28 @@
         selectedNiche = pill.dataset.value;
       });
     });
-
-    // Audit option toggle
     document.querySelectorAll('.audit-opt').forEach(opt => {
-      opt.addEventListener('click', () => {
-        opt.classList.toggle('active');
-      });
+      opt.addEventListener('click', () => opt.classList.toggle('active'));
     });
-
-    // Form submission
     function handleSubmit() {
       const url = document.getElementById('url').value.trim();
       const productName = document.getElementById('productName').value.trim();
       const audience = document.getElementById('audience').value.trim();
-
-      if (!url || !productName || !audience || !selectedNiche) {
-        alert('Please fill in all required fields and select a niche!');
-        return;
-      }
-
+      const goals = document.getElementById('goals').value.trim();
+      const auditTypes = [...document.querySelectorAll('.audit-opt input:checked')].map(i => i.value);
+      const err = document.getElementById('errorMsg');
+      if (!url) { err.textContent = 'Please enter your website URL.'; err.style.display='block'; return; }
+      if (!productName) { err.textContent = 'Please enter your product name.'; err.style.display='block'; return; }
+      if (!selectedNiche) { err.textContent = 'Please select a niche.'; err.style.display='block'; return; }
+      if (!audience) { err.textContent = 'Please describe your target audience.'; err.style.display='block'; return; }
+      if (auditTypes.length === 0) { err.textContent = 'Please select at least one audit type.'; err.style.display='block'; return; }
+      err.style.display = 'none';
       const btn = document.getElementById('submitBtn');
       btn.classList.add('loading');
-      btn.innerHTML = '<span class="spinner"></span> Submitting...';
-
-      // Collect form data (will be sent to backend in Step 2)
-      const formData = {
-        url,
-        productName,
-        niche: selectedNiche,
-        audience,
-        goals: document.getElementById('goals').value,
-        auditTypes: [...document.querySelectorAll('.audit-opt input:checked')].map(i => i.value)
-      };
-
-      console.log('Form Data (will send to AI in Step 2):', formData);
-
-      // Simulate a small delay then show success
-      setTimeout(() => {
-        document.getElementById('formBody').style.display = 'none';
-        document.getElementById('successScreen').style.display = 'block';
-      }, 1200);
+      btn.innerHTML = '<span class="spinner"></span> Launching AI...';
+      localStorage.setItem('roastData', JSON.stringify({ url, productName, niche: selectedNiche, audience, goals, auditTypes }));
+      setTimeout(() => { window.location.href = 'report.html'; }, 800);
     }
   </script>
-
 </body>
 </html>
