@@ -233,8 +233,17 @@
       })
       .then(function(result) {
         if (!result.result) throw new Error('No response from AI');
+        // Strip markdown fences
         var cleaned = result.result.split('```json').join('').split('```').join('').trim();
-        renderReport(JSON.parse(cleaned), data);
+        // Extract JSON object — find first { and last }
+        var start = cleaned.indexOf('{');
+        var end = cleaned.lastIndexOf('}');
+        if (start === -1 || end === -1) throw new Error('No JSON found in AI response');
+        cleaned = cleaned.substring(start, end + 1);
+        var parsed;
+        try { parsed = JSON.parse(cleaned); }
+        catch(e) { throw new Error('AI returned malformed JSON. Please try again.'); }
+        renderReport(parsed, data);
       })
       .catch(function(err) { showError('Error: ' + err.message); });
     };
