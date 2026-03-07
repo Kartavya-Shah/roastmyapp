@@ -16,19 +16,16 @@
     .back-btn { font-size: 0.82rem; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: 0.4rem 1rem; border-radius: 999px; transition: all 0.15s; }
     .back-btn:hover { color: var(--text); border-color: #444; }
     main { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 7rem 1.5rem 4rem; }
+
+    /* Setup */
     .setup-screen { text-align: center; padding: 2rem 1rem; }
     .setup-icon { font-size: 3rem; margin-bottom: 1.5rem; }
     .setup-screen h2 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.8rem; }
-    .setup-screen > p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 460px; margin: 0 auto 2rem; }
+    .setup-screen > p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 480px; margin: 0 auto 2rem; }
     .setup-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; max-width: 500px; margin: 0 auto; position: relative; overflow: hidden; text-align: left; }
     .setup-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2), transparent); }
-    .provider-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.5rem; }
-    .provider-tab { border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem 1rem; cursor: pointer; transition: all 0.15s; text-align: center; }
-    .provider-tab:hover { border-color: #444; }
-    .provider-tab.active { border-color: var(--accent); background: rgba(255,77,0,0.06); }
-    .provider-tab-icon { font-size: 1.4rem; margin-bottom: 0.3rem; }
-    .provider-tab-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
-    .provider-tab-hint { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+    .why-box { background: rgba(255,77,0,0.06); border: 1px solid rgba(255,77,0,0.2); border-radius: 10px; padding: 1rem; margin-bottom: 1.5rem; font-size: 0.82rem; line-height: 1.6; color: #bbb; }
+    .why-box strong { color: var(--accent); display: block; margin-bottom: 0.3rem; font-size: 0.85rem; }
     .setup-label { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #aaa; margin-bottom: 0.5rem; display: block; }
     .setup-input { width: 100%; background: #0a0a0a; border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.92rem; padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; margin-bottom: 1rem; }
     .setup-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,77,0,0.1); }
@@ -38,8 +35,8 @@
     .setup-hint { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; line-height: 1.7; }
     .setup-hint a { color: var(--accent); text-decoration: none; }
     .setup-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 0.7rem 1rem; font-size: 0.82rem; color: var(--red); margin-bottom: 1rem; display: none; }
-    .detected-badge { display: none; align-items: center; gap: 0.5rem; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.8rem; color: var(--green); margin-bottom: 1rem; }
-    .detected-badge.show { display: flex; }
+
+    /* Loading */
     .loading-screen { text-align: center; padding: 4rem 2rem; }
     .loading-icon { font-size: 3rem; margin-bottom: 1.5rem; animation: bounce 1s ease infinite; }
     .loading-screen h2 { font-family: 'Syne', sans-serif; font-size: 1.8rem; margin-bottom: 0.8rem; }
@@ -52,6 +49,8 @@
     .loading-step.active { color: var(--text); }
     .step-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
     .loading-step.active .step-dot { animation: pulse 1s ease infinite; }
+
+    /* Report */
     .report-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
     .report-tag { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; font-weight: 500; }
     .report-header h1 { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
@@ -108,38 +107,29 @@
     <a href="index.html" class="back-btn">← New Audit</a>
   </nav>
   <main>
+
+    <!-- Setup Screen -->
     <div id="setupScreen" class="setup-screen">
       <div class="setup-icon">🔑</div>
       <h2>Connect your AI</h2>
-      <p>Pick your AI provider and paste your API key. Saved only in your browser — never in the code, never on GitHub.</p>
+      <p>Enter your OpenRouter API key to power the audit. Free to sign up, works instantly.</p>
       <div class="setup-card">
+        <div class="why-box">
+          <strong>Why OpenRouter?</strong>
+          It works directly from the browser with no CORS issues, supports 100+ AI models including GPT-4 and Gemini, and has a generous free tier. One key, everything works.
+        </div>
         <div id="setupError" class="setup-error"></div>
-        <div class="provider-tabs">
-          <div class="provider-tab active" id="tab-openai" onclick="selectProvider('openai')">
-            <div class="provider-tab-icon">🤖</div>
-            <div class="provider-tab-name">OpenAI</div>
-            <div class="provider-tab-hint">GPT-3.5 / GPT-4</div>
-          </div>
-          <div class="provider-tab" id="tab-gemini" onclick="selectProvider('gemini')">
-            <div class="provider-tab-icon">✨</div>
-            <div class="provider-tab-name">Google Gemini</div>
-            <div class="provider-tab-hint">Gemini 2.0 Flash</div>
-          </div>
-        </div>
-        <div id="detectedBadge" class="detected-badge">
-          <span>✅</span> <span id="detectedText">Key detected</span>
-        </div>
-        <label class="setup-label" id="keyLabel">OpenAI API Key</label>
-        <input class="setup-input" id="apiKeyInput" type="password" placeholder="sk-..." oninput="autoDetect()" />
+        <label class="setup-label">Your OpenRouter API Key</label>
+        <input class="setup-input" id="apiKeyInput" type="password" placeholder="sk-or-v1-..." />
         <button class="setup-btn" onclick="saveKeyAndStart()">🔥 Start My Audit</button>
         <div class="setup-hint">
-          Get a free Gemini key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>
-          &nbsp;|&nbsp; OpenAI key at <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a><br/>
-          Your key stays in this browser only. Safe. Private. Never shared.
+          Don't have a key? Get one free at <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a> — takes 30 seconds.<br/>
+          Your key is saved only in this browser. Never shared. Never in code.
         </div>
       </div>
     </div>
 
+    <!-- Loading Screen -->
     <div id="loadingScreen" class="loading-screen" style="display:none">
       <div class="loading-icon">🔥</div>
       <h2>Roasting your product...</h2>
@@ -154,6 +144,7 @@
       </div>
     </div>
 
+    <!-- Error Screen -->
     <div id="errorScreen" class="error-screen" style="display:none">
       <div style="font-size:3rem;margin-bottom:1rem">😬</div>
       <h2>Something went wrong</h2>
@@ -164,40 +155,11 @@
       </div>
     </div>
 
+    <!-- Report Output -->
     <div id="reportOutput" style="display:none"></div>
   </main>
 
   <script>
-    var selectedProvider = 'openai';
-
-    function selectProvider(provider) {
-      selectedProvider = provider;
-      document.getElementById('tab-openai').className = 'provider-tab' + (provider === 'openai' ? ' active' : '');
-      document.getElementById('tab-gemini').className = 'provider-tab' + (provider === 'gemini' ? ' active' : '');
-      document.getElementById('keyLabel').textContent = provider === 'openai' ? 'OpenAI API Key' : 'Google Gemini API Key';
-      document.getElementById('apiKeyInput').placeholder = provider === 'openai' ? 'sk-...' : 'AIza...';
-    }
-
-    function autoDetect() {
-      var val = document.getElementById('apiKeyInput').value.trim();
-      var badge = document.getElementById('detectedBadge');
-      if (val.indexOf('sk-') === 0 && val.length > 20) {
-        selectedProvider = 'openai';
-        document.getElementById('tab-openai').className = 'provider-tab active';
-        document.getElementById('tab-gemini').className = 'provider-tab';
-        document.getElementById('detectedText').textContent = 'OpenAI key detected';
-        badge.className = 'detected-badge show';
-      } else if (val.indexOf('AIza') === 0 && val.length > 20) {
-        selectedProvider = 'gemini';
-        document.getElementById('tab-openai').className = 'provider-tab';
-        document.getElementById('tab-gemini').className = 'provider-tab active';
-        document.getElementById('detectedText').textContent = 'Gemini key detected';
-        badge.className = 'detected-badge show';
-      } else {
-        badge.className = 'detected-badge';
-      }
-    }
-
     var loadingSteps = ['ls1','ls2','ls3','ls4','ls5'];
     var currentStep = 1;
     var stepInterval = null;
@@ -221,7 +183,6 @@
 
     function resetKey() {
       localStorage.removeItem('roast_api_key');
-      localStorage.removeItem('roast_provider');
       window.location.reload();
     }
 
@@ -229,17 +190,16 @@
       var key = document.getElementById('apiKeyInput').value.trim();
       var errEl = document.getElementById('setupError');
       if (!key || key.length < 10) {
-        errEl.textContent = 'Please enter a valid API key.';
+        errEl.textContent = 'Please enter a valid OpenRouter API key.';
         errEl.style.display = 'block';
         return;
       }
       errEl.style.display = 'none';
       localStorage.setItem('roast_api_key', key);
-      localStorage.setItem('roast_provider', selectedProvider);
       document.getElementById('setupScreen').style.display = 'none';
       document.getElementById('loadingScreen').style.display = 'block';
       startLoadingAnimation();
-      generateReport(key, selectedProvider);
+      generateReport(key);
     }
 
     function getScoreClass(score) {
@@ -272,19 +232,24 @@
       document.getElementById('reportOutput').style.display = 'block';
     }
 
-    var PROMPT = 'You are a brutally honest product auditor for UX, marketing copy, and QA.\n\nProduct:\n- Name: {name}\n- URL: {url}\n- Niche: {niche}\n- Audience: {audience}\n- Audit Types: {audits}\n- Challenge: {goals}\n\nRespond ONLY with valid JSON, no markdown, no extra text:\n{"scores":{"ux":7,"marketing":6,"qa":8},"sections":[{"icon":"🎨","title":"UX Review","score":7,"summary":"2-3 sentence assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"📢","title":"Marketing Copy","score":6,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"🐛","title":"QA Report","score":8,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]}],"actions":[{"title":"Action 1","detail":"Detail."},{"title":"Action 2","detail":"Detail."},{"title":"Action 3","detail":"Detail."},{"title":"Action 4","detail":"Detail."},{"title":"Action 5","detail":"Detail."}]}';
+    function generateReport(apiKey) {
+      var raw = localStorage.getItem('roastData');
+      if (!raw) { showError('No submission data found. Please go back and fill out the form.'); return; }
+      var data = JSON.parse(raw);
 
-    function buildPrompt(data) {
-      return PROMPT.replace('{name}', data.productName).replace('{url}', data.url).replace('{niche}', data.niche).replace('{audience}', data.audience).replace('{audits}', data.auditTypes.join(', ')).replace('{goals}', data.goals || 'Not specified');
-    }
+      var prompt = 'You are a brutally honest product auditor for UX, marketing copy, and QA.\n\nProduct:\n- Name: ' + data.productName + '\n- URL: ' + data.url + '\n- Niche: ' + data.niche + '\n- Audience: ' + data.audience + '\n- Audit Types: ' + data.auditTypes.join(', ') + '\n- Challenge: ' + (data.goals || 'Not specified') + '\n\nRespond ONLY with valid JSON, no markdown, no extra text:\n{"scores":{"ux":7,"marketing":6,"qa":8},"sections":[{"icon":"🎨","title":"UX Review","score":7,"summary":"2-3 sentence assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"📢","title":"Marketing Copy","score":6,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"🐛","title":"QA Report","score":8,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]}],"actions":[{"title":"Action 1","detail":"Detail."},{"title":"Action 2","detail":"Detail."},{"title":"Action 3","detail":"Detail."},{"title":"Action 4","detail":"Detail."},{"title":"Action 5","detail":"Detail."}]}';
 
-    // Both OpenAI and Gemini use the same OpenAI-compatible format
-    function callAI(apiKey, prompt, data, endpoint, model) {
-      fetch(endpoint, {
+      // OpenRouter - works from browser, supports all models, no CORS issues
+      fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey,
+          'HTTP-Referer': 'https://roastmyapp.vercel.app',
+          'X-Title': 'RoastMyApp'
+        },
         body: JSON.stringify({
-          model: model,
+          model: 'meta-llama/llama-3.1-8b-instruct:free',
           messages: [
             { role: 'system', content: 'You are a product audit expert. Always respond with valid JSON only, no markdown, no extra text.' },
             { role: 'user', content: prompt }
@@ -300,34 +265,20 @@
       .then(function(result) {
         var text = result.choices && result.choices[0] && result.choices[0].message ? result.choices[0].message.content : null;
         if (!text) throw new Error('No response from AI');
-        renderReport(JSON.parse(text.trim()), data);
+        var cleaned = text.split('```json').join('').split('```').join('').trim();
+        renderReport(JSON.parse(cleaned), data);
       })
       .catch(function(err) { showError('Error: ' + err.message); });
-    }
-
-    function generateReport(apiKey, provider) {
-      var raw = localStorage.getItem('roastData');
-      if (!raw) { showError('No submission data found. Please go back and fill out the form.'); return; }
-      var data = JSON.parse(raw);
-      var prompt = buildPrompt(data);
-      if (provider === 'gemini') {
-        // Gemini OpenAI-compatible endpoint - works with all Gemini models
-        callAI(apiKey, prompt, data, 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', 'gemini-2.0-flash');
-      } else {
-        callAI(apiKey, prompt, data, 'https://api.openai.com/v1/chat/completions', 'gpt-3.5-turbo');
-      }
     }
 
     window.onload = function() {
       var raw = localStorage.getItem('roastData');
       if (!raw) { window.location.href = 'index.html'; return; }
       var savedKey = localStorage.getItem('roast_api_key');
-      var savedProvider = localStorage.getItem('roast_provider') || 'openai';
       if (savedKey && savedKey.length > 10) {
-        selectedProvider = savedProvider;
         document.getElementById('loadingScreen').style.display = 'block';
         startLoadingAnimation();
-        generateReport(savedKey, savedProvider);
+        generateReport(savedKey);
       } else {
         document.getElementById('setupScreen').style.display = 'block';
       }
