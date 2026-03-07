@@ -3,43 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RoastMyApp — AI Product Audit</title>
+  <title>RoastMyApp — Free AI Product Audit</title>
+  <meta name="description" content="Submit your app or website and get a brutal AI-powered audit of your UX, marketing copy, and QA in 60 seconds." />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root { --bg: #0a0a0a; --surface: #111111; --border: #1e1e1e; --accent: #ff4d00; --accent2: #ff8c00; --text: #f0ede8; --muted: #666; }
     body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
-    body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 10% 0%, rgba(255,77,0,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 90% 100%, rgba(255,140,0,0.08) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+    body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 10% 0%, rgba(255,77,0,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 90% 100%, rgba(255,140,0,0.06) 0%, transparent 60%); pointer-events: none; z-index: 0; }
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 2.5rem; border-bottom: 1px solid var(--border); background: rgba(10,10,10,0.85); backdrop-filter: blur(12px); }
     .logo { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em; }
     .logo span { color: var(--accent); }
     .badge { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(255,77,0,0.3); padding: 0.3rem 0.8rem; border-radius: 999px; background: rgba(255,77,0,0.08); }
     main { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 8rem 1.5rem 4rem; }
-    .hero { text-align: center; max-width: 680px; margin-bottom: 3.5rem; animation: fadeUp 0.8s ease both; }
-    .hero-tag { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; font-weight: 500; }
+    .hero { text-align: center; max-width: 700px; margin-bottom: 3rem; animation: fadeUp 0.8s ease both; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; font-weight: 500; background: rgba(255,77,0,0.08); border: 1px solid rgba(255,77,0,0.2); padding: 0.4rem 1rem; border-radius: 999px; }
     .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 1.5s ease infinite; }
     h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 1.2rem; }
-    h1 em { font-style: normal; color: var(--accent); }
-    .hero p { font-size: 1.1rem; color: var(--muted); line-height: 1.7; font-weight: 300; max-width: 500px; margin: 0 auto; }
-    .stats { display: flex; gap: 2rem; margin-top: 2rem; justify-content: center; flex-wrap: wrap; }
-    .stat { text-align: center; }
-    .stat-num { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; }
-    .stat-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.1rem; }
-    .form-card { width: 100%; max-width: 620px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; animation: fadeUp 0.8s 0.25s ease both; position: relative; overflow: hidden; }
+    h1 em { font-style: normal; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 1.1rem; color: var(--muted); line-height: 1.7; font-weight: 300; max-width: 520px; margin: 0 auto 2rem; }
+    .stats { display: flex; justify-content: center; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--surface); max-width: 400px; margin: 0 auto; }
+    .stat { flex: 1; text-align: center; padding: 1rem; border-right: 1px solid var(--border); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; }
+    .stat-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.2rem; }
+    .form-card { width: 100%; max-width: 620px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; animation: fadeUp 0.8s 0.2s ease both; position: relative; overflow: hidden; margin-top: 2.5rem; }
     .form-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2), transparent); }
     .form-title { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; }
     .form-subtitle { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
+    .steps { display: flex; align-items: center; margin-bottom: 2rem; }
+    .step { display: flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+    .step.active { color: var(--accent); }
+    .step-num { width: 22px; height: 22px; border-radius: 50%; border: 1px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; flex-shrink: 0; }
+    .step-line { flex: 1; height: 1px; background: var(--border); margin: 0 0.5rem; min-width: 20px; }
     .field { margin-bottom: 1.4rem; }
     label { display: block; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #aaa; margin-bottom: 0.5rem; }
     label span { color: var(--accent); }
-    input, textarea { width: 100%; background: #0a0a0a; border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
-    input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,77,0,0.1); }
+    input[type="text"], input[type="url"], textarea { width: 100%; background: #0a0a0a; border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    input[type="text"]:focus, input[type="url"]:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,77,0,0.1); }
     input::placeholder, textarea::placeholder { color: #444; }
     textarea { resize: vertical; min-height: 100px; }
     .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     .pill { cursor: pointer; border: 1px solid var(--border); border-radius: 999px; padding: 0.45rem 1rem; font-size: 0.82rem; color: var(--muted); transition: all 0.15s; user-select: none; background: transparent; }
     .pill:hover { border-color: #444; color: var(--text); }
     .pill.active { border-color: var(--accent); color: var(--accent); background: rgba(255,77,0,0.08); }
+    .other-input { margin-top: 0.6rem; display: none; }
+    .other-input.show { display: block; }
     .audit-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
     .audit-opt { display: flex; align-items: center; gap: 0.6rem; border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 1rem; cursor: pointer; transition: all 0.15s; user-select: none; }
     .audit-opt.active { border-color: var(--accent); background: rgba(255,77,0,0.06); }
@@ -50,18 +59,13 @@
     .submit-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 10px; padding: 1rem 1.5rem; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
     .submit-btn:hover { background: #ff6020; transform: translateY(-1px); box-shadow: 0 8px 25px rgba(255,77,0,0.35); }
     .submit-btn.loading { pointer-events: none; opacity: 0.7; }
-    .steps { display: flex; align-items: center; margin-bottom: 2rem; }
-    .step { display: flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
-    .step.active { color: var(--accent); }
-    .step-num { width: 22px; height: 22px; border-radius: 50%; border: 1px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; flex-shrink: 0; }
-    .step-line { flex: 1; height: 1px; background: var(--border); margin: 0 0.5rem; min-width: 20px; }
     .error-msg { background: rgba(255,77,0,0.1); border: 1px solid rgba(255,77,0,0.3); border-radius: 8px; padding: 0.8rem 1rem; font-size: 0.85rem; color: #ff6b4a; margin-bottom: 1rem; display: none; }
+    footer { position: relative; z-index: 1; text-align: center; padding: 2rem; font-size: 0.75rem; color: #333; }
+    footer span { color: var(--accent); }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
-    footer { position: relative; z-index: 1; text-align: center; padding: 2rem; font-size: 0.75rem; color: #333; }
-    footer span { color: var(--accent); }
   </style>
 </head>
 <body>
@@ -80,6 +84,7 @@
         <div class="stat"><div class="stat-num">3-in-1</div><div class="stat-label">UX + Marketing + QA</div></div>
       </div>
     </div>
+
     <div class="form-card">
       <div class="steps">
         <div class="step active"><div class="step-num">1</div>&nbsp;Submit</div>
@@ -91,6 +96,7 @@
       <div class="form-title">Tell us about your product</div>
       <div class="form-subtitle">The more detail you give, the sharper the roast 🔥</div>
       <div id="errorMsg" class="error-msg"></div>
+
       <div class="field">
         <label>Your website / app URL <span>*</span></label>
         <input type="url" id="url" placeholder="https://yourproduct.com" />
@@ -109,7 +115,10 @@
           <div class="pill" data-value="Health">Health</div>
           <div class="pill" data-value="Productivity">Productivity</div>
           <div class="pill" data-value="Social">Social</div>
-          <div class="pill" data-value="Other">Other</div>
+          <div class="pill" data-value="Other">Other ✏️</div>
+        </div>
+        <div class="other-input" id="otherNicheWrap">
+          <input type="text" id="otherNiche" placeholder="Type your industry..." />
         </div>
       </div>
       <div class="field">
@@ -119,22 +128,22 @@
       <div class="field">
         <label>What should we audit? <span>*</span></label>
         <div class="audit-options">
-          <label class="audit-opt active">
-            <input type="checkbox" value="UX Review" checked />
+          <div class="audit-opt" data-value="UX Review" onclick="toggleAudit(this)">
+            <input type="checkbox" />
             <div><div class="audit-opt-title">🎨 UX Review</div><div class="audit-opt-desc">Layout, flow, usability</div></div>
-          </label>
-          <label class="audit-opt active">
-            <input type="checkbox" value="Marketing Copy" checked />
+          </div>
+          <div class="audit-opt" data-value="Marketing Copy" onclick="toggleAudit(this)">
+            <input type="checkbox" />
             <div><div class="audit-opt-title">📢 Marketing Copy</div><div class="audit-opt-desc">Messaging & conversion</div></div>
-          </label>
-          <label class="audit-opt active">
-            <input type="checkbox" value="QA Report" checked />
+          </div>
+          <div class="audit-opt" data-value="QA Report" onclick="toggleAudit(this)">
+            <input type="checkbox" />
             <div><div class="audit-opt-title">🐛 QA Report</div><div class="audit-opt-desc">Bugs & inconsistencies</div></div>
-          </label>
-          <label class="audit-opt">
-            <input type="checkbox" value="SEO Basics" />
+          </div>
+          <div class="audit-opt" data-value="SEO Basics" onclick="toggleAudit(this)">
+            <input type="checkbox" />
             <div><div class="audit-opt-title">🔍 SEO Basics</div><div class="audit-opt-desc">Visibility & indexability</div></div>
-          </label>
+          </div>
         </div>
       </div>
       <div class="field">
@@ -146,36 +155,68 @@
     </div>
   </main>
   <footer>Built with 🔥 by <span>RoastMyApp</span> — Powered by AI</footer>
+
   <script>
-    let selectedNiche = '';
-    document.querySelectorAll('.pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    var selectedNiche = '';
+
+    // Niche pills
+    document.querySelectorAll('.pill').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        document.querySelectorAll('.pill').forEach(function(p) { p.classList.remove('active'); });
         pill.classList.add('active');
         selectedNiche = pill.dataset.value;
+        // Show text input only for "Other"
+        var wrap = document.getElementById('otherNicheWrap');
+        if (selectedNiche === 'Other') {
+          wrap.classList.add('show');
+          document.getElementById('otherNiche').focus();
+        } else {
+          wrap.classList.remove('show');
+          document.getElementById('otherNiche').value = '';
+        }
       });
     });
-    document.querySelectorAll('.audit-opt').forEach(opt => {
-      opt.addEventListener('click', () => opt.classList.toggle('active'));
-    });
+
+    // Audit option toggle
+    function toggleAudit(el) {
+      el.classList.toggle('active');
+      el.querySelector('input[type="checkbox"]').checked = el.classList.contains('active');
+    }
+
     function handleSubmit() {
-      const url = document.getElementById('url').value.trim();
-      const productName = document.getElementById('productName').value.trim();
-      const audience = document.getElementById('audience').value.trim();
-      const goals = document.getElementById('goals').value.trim();
-      const auditTypes = [...document.querySelectorAll('.audit-opt input:checked')].map(i => i.value);
-      const err = document.getElementById('errorMsg');
+      var url = document.getElementById('url').value.trim();
+      var productName = document.getElementById('productName').value.trim();
+      var audience = document.getElementById('audience').value.trim();
+      var goals = document.getElementById('goals').value.trim();
+      var err = document.getElementById('errorMsg');
+
+      // If "Other" selected, use typed value as niche
+      var finalNiche = selectedNiche;
+      if (selectedNiche === 'Other') {
+        var otherVal = document.getElementById('otherNiche').value.trim();
+        if (!otherVal) { err.textContent = 'Please type your industry.'; err.style.display='block'; return; }
+        finalNiche = otherVal;
+      }
+
+      // Get selected audit types
+      var auditTypes = [];
+      document.querySelectorAll('.audit-opt.active').forEach(function(opt) {
+        auditTypes.push(opt.dataset.value);
+      });
+
       if (!url) { err.textContent = 'Please enter your website URL.'; err.style.display='block'; return; }
       if (!productName) { err.textContent = 'Please enter your product name.'; err.style.display='block'; return; }
-      if (!selectedNiche) { err.textContent = 'Please select a niche.'; err.style.display='block'; return; }
+      if (!finalNiche) { err.textContent = 'Please select a niche.'; err.style.display='block'; return; }
       if (!audience) { err.textContent = 'Please describe your target audience.'; err.style.display='block'; return; }
       if (auditTypes.length === 0) { err.textContent = 'Please select at least one audit type.'; err.style.display='block'; return; }
+
       err.style.display = 'none';
-      const btn = document.getElementById('submitBtn');
+      var btn = document.getElementById('submitBtn');
       btn.classList.add('loading');
       btn.innerHTML = '<span class="spinner"></span> Launching AI...';
-      localStorage.setItem('roastData', JSON.stringify({ url, productName, niche: selectedNiche, audience, goals, auditTypes }));
-      setTimeout(() => { window.location.href = 'report.html'; }, 800);
+
+      localStorage.setItem('roastData', JSON.stringify({ url: url, productName: productName, niche: finalNiche, audience: audience, goals: goals, auditTypes: auditTypes }));
+      setTimeout(function() { window.location.href = 'report.html'; }, 800);
     }
   </script>
 </body>
