@@ -16,27 +16,6 @@
     .back-btn { font-size: 0.82rem; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: 0.4rem 1rem; border-radius: 999px; transition: all 0.15s; }
     .back-btn:hover { color: var(--text); border-color: #444; }
     main { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 7rem 1.5rem 4rem; }
-
-    /* Setup */
-    .setup-screen { text-align: center; padding: 2rem 1rem; }
-    .setup-icon { font-size: 3rem; margin-bottom: 1.5rem; }
-    .setup-screen h2 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.8rem; }
-    .setup-screen > p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 480px; margin: 0 auto 2rem; }
-    .setup-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; max-width: 500px; margin: 0 auto; position: relative; overflow: hidden; text-align: left; }
-    .setup-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2), transparent); }
-    .why-box { background: rgba(255,77,0,0.06); border: 1px solid rgba(255,77,0,0.2); border-radius: 10px; padding: 1rem; margin-bottom: 1.5rem; font-size: 0.82rem; line-height: 1.6; color: #bbb; }
-    .why-box strong { color: var(--accent); display: block; margin-bottom: 0.3rem; font-size: 0.85rem; }
-    .setup-label { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #aaa; margin-bottom: 0.5rem; display: block; }
-    .setup-input { width: 100%; background: #0a0a0a; border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.92rem; padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; margin-bottom: 1rem; }
-    .setup-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,77,0,0.1); }
-    .setup-input::placeholder { color: #444; }
-    .setup-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 10px; padding: 0.9rem; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-    .setup-btn:hover { background: #ff6020; transform: translateY(-1px); }
-    .setup-hint { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; line-height: 1.7; }
-    .setup-hint a { color: var(--accent); text-decoration: none; }
-    .setup-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 0.7rem 1rem; font-size: 0.82rem; color: var(--red); margin-bottom: 1rem; display: none; }
-
-    /* Loading */
     .loading-screen { text-align: center; padding: 4rem 2rem; }
     .loading-icon { font-size: 3rem; margin-bottom: 1.5rem; animation: bounce 1s ease infinite; }
     .loading-screen h2 { font-family: 'Syne', sans-serif; font-size: 1.8rem; margin-bottom: 0.8rem; }
@@ -49,8 +28,6 @@
     .loading-step.active { color: var(--text); }
     .step-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
     .loading-step.active .step-dot { animation: pulse 1s ease infinite; }
-
-    /* Report */
     .report-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
     .report-tag { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; font-weight: 500; }
     .report-header h1 { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
@@ -91,7 +68,6 @@
     .error-screen p { color: var(--muted); margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.9rem; max-width: 500px; margin-left: auto; margin-right: auto; }
     .btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
     .retry-btn { background: var(--accent); color: white; border: none; border-radius: 10px; padding: 0.8rem 2rem; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.95rem; }
-    .reset-key-btn { background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem 2rem; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.95rem; }
     .new-audit-btn { display: inline-block; margin-top: 2rem; background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 10px; padding: 0.8rem 2rem; font-family: 'Syne', sans-serif; font-weight: 700; text-decoration: none; transition: all 0.2s; }
     .new-audit-btn:hover { background: var(--accent); color: white; }
     .fade-in { animation: fadeUp 0.6s ease both; }
@@ -107,30 +83,7 @@
     <a href="index.html" class="back-btn">← New Audit</a>
   </nav>
   <main>
-
-    <!-- Setup Screen -->
-    <div id="setupScreen" class="setup-screen">
-      <div class="setup-icon">🔑</div>
-      <h2>Connect your AI</h2>
-      <p>Enter your OpenRouter API key to power the audit. Free to sign up, works instantly.</p>
-      <div class="setup-card">
-        <div class="why-box">
-          <strong>Why OpenRouter?</strong>
-          It works directly from the browser with no CORS issues, supports 100+ AI models including GPT-4 and Gemini, and has a generous free tier. One key, everything works.
-        </div>
-        <div id="setupError" class="setup-error"></div>
-        <label class="setup-label">Your OpenRouter API Key</label>
-        <input class="setup-input" id="apiKeyInput" type="password" placeholder="sk-or-v1-..." />
-        <button class="setup-btn" onclick="saveKeyAndStart()">🔥 Start My Audit</button>
-        <div class="setup-hint">
-          Don't have a key? Get one free at <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a> — takes 30 seconds.<br/>
-          Your key is saved only in this browser. Never shared. Never in code.
-        </div>
-      </div>
-    </div>
-
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="loading-screen" style="display:none">
+    <div id="loadingScreen" class="loading-screen">
       <div class="loading-icon">🔥</div>
       <h2>Roasting your product...</h2>
       <p>Our AI is carefully analyzing your website for UX issues, marketing gaps, and quality problems.</p>
@@ -144,62 +97,34 @@
       </div>
     </div>
 
-    <!-- Error Screen -->
     <div id="errorScreen" class="error-screen" style="display:none">
       <div style="font-size:3rem;margin-bottom:1rem">😬</div>
       <h2>Something went wrong</h2>
       <p id="errorMsg">The AI could not generate your report.</p>
       <div class="btn-row">
         <button class="retry-btn" onclick="window.location.href='index.html'">← Try Again</button>
-        <button class="reset-key-btn" onclick="resetKey()">🔑 Change API Key</button>
       </div>
     </div>
 
-    <!-- Report Output -->
     <div id="reportOutput" style="display:none"></div>
   </main>
 
   <script>
     var loadingSteps = ['ls1','ls2','ls3','ls4','ls5'];
     var currentStep = 1;
-    var stepInterval = null;
-
-    function startLoadingAnimation() {
-      stepInterval = setInterval(function() {
-        if (currentStep < loadingSteps.length) {
-          document.getElementById(loadingSteps[currentStep - 1]).className = 'loading-step done';
-          document.getElementById(loadingSteps[currentStep]).className = 'loading-step active';
-          currentStep++;
-        }
-      }, 1800);
-    }
+    var stepInterval = setInterval(function() {
+      if (currentStep < loadingSteps.length) {
+        document.getElementById(loadingSteps[currentStep - 1]).className = 'loading-step done';
+        document.getElementById(loadingSteps[currentStep]).className = 'loading-step active';
+        currentStep++;
+      }
+    }, 1800);
 
     function showError(msg) {
-      if (stepInterval) clearInterval(stepInterval);
+      clearInterval(stepInterval);
       document.getElementById('loadingScreen').style.display = 'none';
       document.getElementById('errorScreen').style.display = 'block';
       document.getElementById('errorMsg').textContent = msg;
-    }
-
-    function resetKey() {
-      localStorage.removeItem('roast_api_key');
-      window.location.reload();
-    }
-
-    function saveKeyAndStart() {
-      var key = document.getElementById('apiKeyInput').value.trim();
-      var errEl = document.getElementById('setupError');
-      if (!key || key.length < 10) {
-        errEl.textContent = 'Please enter a valid OpenRouter API key.';
-        errEl.style.display = 'block';
-        return;
-      }
-      errEl.style.display = 'none';
-      localStorage.setItem('roast_api_key', key);
-      document.getElementById('setupScreen').style.display = 'none';
-      document.getElementById('loadingScreen').style.display = 'block';
-      startLoadingAnimation();
-      generateReport(key);
     }
 
     function getScoreClass(score) {
@@ -209,7 +134,7 @@
     }
 
     function renderReport(data, meta) {
-      if (stepInterval) clearInterval(stepInterval);
+      clearInterval(stepInterval);
       document.getElementById('loadingScreen').style.display = 'none';
       var overall = Math.round((data.scores.ux + data.scores.marketing + data.scores.qa) / 3);
       var sectionsHTML = '';
@@ -232,56 +157,29 @@
       document.getElementById('reportOutput').style.display = 'block';
     }
 
-    function generateReport(apiKey) {
+    window.onload = function() {
       var raw = localStorage.getItem('roastData');
-      if (!raw) { showError('No submission data found. Please go back and fill out the form.'); return; }
+      if (!raw) { window.location.href = 'index.html'; return; }
       var data = JSON.parse(raw);
 
       var prompt = 'You are a brutally honest product auditor for UX, marketing copy, and QA.\n\nProduct:\n- Name: ' + data.productName + '\n- URL: ' + data.url + '\n- Niche: ' + data.niche + '\n- Audience: ' + data.audience + '\n- Audit Types: ' + data.auditTypes.join(', ') + '\n- Challenge: ' + (data.goals || 'Not specified') + '\n\nRespond ONLY with valid JSON, no markdown, no extra text:\n{"scores":{"ux":7,"marketing":6,"qa":8},"sections":[{"icon":"🎨","title":"UX Review","score":7,"summary":"2-3 sentence assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"📢","title":"Marketing Copy","score":6,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]},{"icon":"🐛","title":"QA Report","score":8,"summary":"Assessment.","findings":[{"type":"issue","title":"Title","detail":"Detail."},{"type":"warning","title":"Title","detail":"Detail."},{"type":"good","title":"Title","detail":"Detail."}]}],"actions":[{"title":"Action 1","detail":"Detail."},{"title":"Action 2","detail":"Detail."},{"title":"Action 3","detail":"Detail."},{"title":"Action 4","detail":"Detail."},{"title":"Action 5","detail":"Detail."}]}';
 
-      // OpenRouter - works from browser, supports all models, no CORS issues
-      fetch('https://openrouter.ai/api/v1/chat/completions', {
+      // Calls YOUR Vercel backend — no CORS issues ever
+      fetch('/api/audit', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + apiKey,
-          'HTTP-Referer': 'https://roastmyapp.vercel.app',
-          'X-Title': 'RoastMyApp'
-        },
-        body: JSON.stringify({
-          model: 'meta-llama/llama-3.1-8b-instruct:free',
-          messages: [
-            { role: 'system', content: 'You are a product audit expert. Always respond with valid JSON only, no markdown, no extra text.' },
-            { role: 'user', content: prompt }
-          ],
-          temperature: 0.7,
-          max_tokens: 2048
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: prompt })
       })
       .then(function(r) {
-        if (!r.ok) return r.json().then(function(e) { throw new Error(e.error ? (e.error.message || JSON.stringify(e.error)) : 'API error ' + r.status); });
+        if (!r.ok) return r.json().then(function(e) { throw new Error(e.error || 'Server error ' + r.status); });
         return r.json();
       })
       .then(function(result) {
-        var text = result.choices && result.choices[0] && result.choices[0].message ? result.choices[0].message.content : null;
-        if (!text) throw new Error('No response from AI');
-        var cleaned = text.split('```json').join('').split('```').join('').trim();
+        if (!result.result) throw new Error('No response from AI');
+        var cleaned = result.result.split('```json').join('').split('```').join('').trim();
         renderReport(JSON.parse(cleaned), data);
       })
       .catch(function(err) { showError('Error: ' + err.message); });
-    }
-
-    window.onload = function() {
-      var raw = localStorage.getItem('roastData');
-      if (!raw) { window.location.href = 'index.html'; return; }
-      var savedKey = localStorage.getItem('roast_api_key');
-      if (savedKey && savedKey.length > 10) {
-        document.getElementById('loadingScreen').style.display = 'block';
-        startLoadingAnimation();
-        generateReport(savedKey);
-      } else {
-        document.getElementById('setupScreen').style.display = 'block';
-      }
     };
   </script>
 </body>
