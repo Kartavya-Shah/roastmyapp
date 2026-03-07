@@ -136,12 +136,20 @@
     }
 
     function buildPrompt(data) {
-      var auditMap = {
-        'UX Review':      { key: 'ux',       icon: '🎨', title: 'UX Review' },
-        'Marketing Copy': { key: 'marketing', icon: '📢', title: 'Marketing Copy' },
-        'QA Report':      { key: 'qa',        icon: '🐛', title: 'QA Report' },
-        'SEO Basics':     { key: 'seo',       icon: '🔍', title: 'SEO Basics' }
-      };
+      var auditList = data.auditTypes.join(', ');
+      return 'You are auditing a product. Be specific to the niche and audience in every single finding.\n\n'
+        + 'Product: ' + data.productName + '\n'
+        + 'URL: ' + data.url + '\n'
+        + 'Niche: ' + data.niche + '\n'
+        + 'Audience: ' + data.audience + '\n'
+        + 'Challenge: ' + (data.goals || 'Not specified') + '\n'
+        + 'Audit only these sections (no extras): ' + auditList + '\n\n'
+        + 'Return a JSON object with:\n'
+        + '- "scores": object with a key per audit type (ux, marketing, qa, seo) — only include selected ones, value 1-10\n'
+        + '- "sections": array — one object per selected audit type with: icon (emoji), title, score (1-10), summary (2 sentences), findings (array of 3 objects with type (issue/warning/good), title, detail)\n'
+        + '- "actions": array of 5 objects with title and detail — prioritised by impact\n\n'
+        + 'Rules: Only include sections for: ' + auditList + '. Reference ' + data.niche + ' and ' + data.audience + ' in findings. Return valid JSON only, no markdown.';
+    };
 
       var scoreKeys = data.auditTypes.map(function(t) {
         return '"' + auditMap[t].key + '":7';

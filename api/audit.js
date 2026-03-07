@@ -21,17 +21,17 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: 'openrouter/auto',
         messages: [
-          { role: 'system', content: 'You are a senior product strategist. Every finding must be specific to the given niche and target audience — never generic. Respond with valid JSON only. No markdown, no text outside JSON.' },
+          { role: 'system', content: 'You are a senior product auditor. Always respond with valid JSON only. No markdown. No text before or after the JSON object.' },
           { role: 'user', content: prompt }
         ],
-        temperature: 0.7,
+        temperature: 0.5,
         max_tokens: 4000
       })
     });
 
     let data;
     try { data = await response.json(); }
-    catch (e) { return res.status(500).json({ error: 'Invalid response from AI' }); }
+    catch (e) { return res.status(500).json({ error: 'Invalid response from AI provider' }); }
 
     if (!response.ok) {
       const msg = (data.error && data.error.message) ? data.error.message : 'API error ' + response.status;
@@ -41,7 +41,9 @@ export default async function handler(req, res) {
     const text = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
     if (!text) return res.status(500).json({ error: 'No content returned from AI' });
 
+    // Return raw text — let frontend parse it
     res.status(200).json({ result: text });
+
   } catch (err) {
     res.status(500).json({ error: err.message || 'Unknown server error' });
   }
