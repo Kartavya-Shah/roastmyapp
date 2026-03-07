@@ -152,33 +152,7 @@
         return '{"icon":"' + a.icon + '","title":"' + a.title + '","score":7,"summary":"Niche-specific 2-3 sentence assessment.","findings":[{"type":"issue","title":"Specific issue","detail":"Specific detail for this niche and audience."},{"type":"warning","title":"Specific warning","detail":"Specific detail."},{"type":"good","title":"Specific strength","detail":"Specific detail."}]}';
       }).join(',');
 
-      var lines = [
-        'You are auditing the following product. Be deeply specific to the niche and audience — zero generic advice.',
-        '',
-        'PRODUCT:',
-        '  Name: ' + data.productName,
-        '  URL: ' + data.url,
-        '  Niche / Industry: ' + data.niche,
-        '  Target Audience: ' + data.audience,
-        '  Biggest Challenge: ' + (data.goals || 'Not specified'),
-        '',
-        'AUDIT SCOPE — only produce sections for these (no extras):',
-        data.auditTypes.map(function(t, i) { return '  ' + (i+1) + '. ' + t; }).join('\n'),
-        '',
-        'REQUIREMENTS:',
-        '  - Every finding must directly reference the "' + data.niche + '" niche or "' + data.audience + '" audience',
-        '  - UX: evaluate based on what ' + data.audience + ' expects from a ' + data.niche + ' product',
-        '  - Marketing: evaluate copy effectiveness for converting ' + data.audience + ' in the ' + data.niche + ' space',
-        '  - QA: flag issues that specifically damage trust with ' + data.audience,
-        '  - SEO: reference search intent and keywords specific to ' + data.niche,
-        '  - Score out of 10 using real ' + data.niche + ' industry benchmarks',
-        '  - Action plan must be prioritised by highest business impact for this product',
-        '',
-        'Respond ONLY with this exact JSON structure, no markdown:',
-        '{"scores":{' + scoreKeys + '},"sections":[' + sectionsTemplate + '],"actions":[{"title":"Top priority action","detail":"Specific detail."},{"title":"Second action","detail":"Specific detail."},{"title":"Third action","detail":"Specific detail."},{"title":"Fourth action","detail":"Specific detail."},{"title":"Fifth action","detail":"Specific detail."}]}'
-      ];
-
-      return lines.join('\n');
+      return 'Audit this product. Be specific to the niche and audience in every finding — no generic advice.\n\nProduct: ' + data.productName + '\nURL: ' + data.url + '\nNiche: ' + data.niche + '\nAudience: ' + data.audience + '\nChallenge: ' + (data.goals || 'Not specified') + '\nAudit only these sections: ' + data.auditTypes.join(', ') + '\n\nFor each finding, reference the ' + data.niche + ' niche and ' + data.audience + ' audience specifically. Score using ' + data.niche + ' benchmarks.\n\nRespond ONLY with this JSON, no markdown:\n{"scores":{' + scoreKeys + '},"sections":[' + sectionsTemplate + '],"actions":[{"title":"Action 1","detail":"Specific detail."},{"title":"Action 2","detail":"Specific detail."},{"title":"Action 3","detail":"Specific detail."},{"title":"Action 4","detail":"Specific detail."},{"title":"Action 5","detail":"Specific detail."}]}';
     }
 
     function renderReport(data, meta) {
