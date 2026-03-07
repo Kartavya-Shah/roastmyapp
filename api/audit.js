@@ -7,60 +7,64 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { productName, url, niche, audience, goals, auditTypes } = req.body;
-  if (!productName || !auditTypes) return res.status(400).json({ error: 'Missing required fields' });
+  if (!productName || !auditTypes || !auditTypes.length) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
 
-  // Build sections description safely on the server - no user data inside JSON strings
-  const auditDescriptions = {
-    'UX Review': { key: 'ux', icon: '🎨' },
-    'Marketing Copy': { key: 'marketing', icon: '📢' },
-    'QA Report': { key: 'qa', icon: '🐛' },
-    'SEO Basics': { key: 'seo', icon: '🔍' }
+  const icons = {
+    'UX Review': '🎨',
+    'Marketing Copy': '📢',
+    'QA Report': '🐛',
+    'SEO Basics': '🔍'
   };
 
-  const selectedAudits = auditTypes.filter(t => auditDescriptions[t]);
-  const sectionsList = selectedAudits.map(t => `"${t}"`).join(', ');
+  const keys = {
+    'UX Review': 'ux',
+    'Marketing Copy': 'marketing',
+    'QA Report': 'qa',
+    'SEO Basics': 'seo'
+  };
 
-  const prompt = `You are a senior product auditor. Audit the following product.
+  // Build JSON template with only static values — NO user input inside JSON strings
+  const scoresShape = auditTypes.map(t => `"${keys[t]}": 0`).join(', ');
+  const sectionsShape = auditTypes.map(t => JSON.stringify({
+    icon: icons[t],
+    title: t,
+    score: 0,
+    summary: "REPLACE_WITH_SUMMARY",
+    findings: [
+      { type: "issue", title: "REPLACE", detail: "REPLACE" },
+      { type: "warning", title: "REPLACE", detail: "REPLACE" },
+      { type: "good", title: "REPLACE", detail: "REPLACE" }
+    ]
+  })).join(', ');
 
-Product Name: ${productName}
+  const actionsShape = JSON.stringify([
+    { title: "REPLACE", detail: "REPLACE" },
+    { title: "REPLACE", detail: "REPLACE" },
+    { title: "REPLACE", detail: "REPLACE" },
+    { title: "REPLACE", detail: "REPLACE" },
+    { title: "REPLACE", detail: "REPLACE" }
+  ]);
+
+  const prompt = `You are a senior product auditor. Audit the product below and fill in the JSON template with real content.
+
+PRODUCT INFO:
+Name: ${productName}
 URL: ${url}
 Niche: ${niche}
-Target Audience: ${audience}
+Audience: ${audience}
 Challenge: ${goals || 'Not specified'}
-Audit Sections Required: ${sectionsList}
+Audit Types: ${auditTypes.join(', ')}
 
-Rules:
-- Only include sections for the audit types listed above
-- Every finding must reference the specific niche (${niche}) and audience (${audience})
-- Be brutally honest and specific — no generic advice
-- Scores are out of 10
+RULES:
+- Every finding must be specific to the ${niche} niche and ${audience} audience
+- Replace all REPLACE placeholders with real audit content
+- Scores are integers 1-10 based on ${niche} industry standards
+- Only output the JSON object — no markdown, no explanation
 
-You must return ONLY a JSON object. No markdown. No explanation. Start with { end with }.
-
-The JSON must have exactly this shape:
-{
-  "scores": { ${selectedAudits.map(t => `"${auditDescriptions[t].key}": 7`).join(', ')} },
-  "sections": [
-    ${selectedAudits.map(t => `{
-      "icon": "${auditDescriptions[t].icon}",
-      "title": "${t}",
-      "score": 7,
-      "summary": "write your 2 sentence summary here",
-      "findings": [
-        { "type": "issue", "title": "write title", "detail": "write detail" },
-        { "type": "warning", "title": "write title", "detail": "write detail" },
-        { "type": "good", "title": "write title", "detail": "write detail" }
-      ]
-    }`).join(',\n    ')}
-  ],
-  "actions": [
-    { "title": "action 1 title", "detail": "action 1 detail" },
-    { "title": "action 2 title", "detail": "action 2 detail" },
-    { "title": "action 3 title", "detail": "action 3 detail" },
-    { "title": "action 4 title", "detail": "action 4 detail" },
-    { "title": "action 5 title", "detail": "action 5 detail" }
-  ]
-}`;
+JSON TEMPLATE TO FILL:
+{"scores": {${scoresShape}}, "sections": [${sectionsShape}], "actions": ${actionsShape}}`;
 
   try {
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -94,23 +98,33 @@ The JSON must have exactly this shape:
     let text = data.choices?.[0]?.message?.content;
     if (!text) return res.status(500).json({ error: 'No content returned from AI' });
 
-    // Clean and extract JSON
+    // Strip markdown fences if present
     text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+
+    // Extract JSON object
     const start = text.indexOf('{');
     const end = text.lastIndexOf('}');
     if (start === -1 || end === -1) {
-      return res.status(500).json({ error: 'AI did not return JSON. Got: ' + text.substring(0, 300) });
+      return res.status(500).json({ error: 'AI did not return JSON. Response: ' + text.substring(0, 200) });
     }
     text = text.substring(start, end + 1);
 
+    // Parse and validate
+    let parsed;
     try {
-      const parsed = JSON.parse(text);
-      return res.status(200).json({ result: parsed });
-    } catch(e) {
-      return res.status(500).json({ error: 'JSON parse failed: ' + e.message });
+      parsed = JSON.parse(text);
+    } catch (e) {
+      return res.status(500).json({ error: 'AI returned malformed JSON: ' + e.message });
     }
 
+    // Validate required fields exist
+    if (!parsed.scores || !parsed.sections || !parsed.actions) {
+      return res.status(500).json({ error: 'AI response missing required fields' });
+    }
+
+    return res.status(200).json({ result: parsed });
+
   } catch (err) {
-    res.status(500).json({ error: err.message || 'Unknown server error' });
+    return res.status(500).json({ error: err.message || 'Unknown server error' });
   }
 }

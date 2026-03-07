@@ -92,7 +92,7 @@
       <div class="loading-bar"><div class="loading-bar-fill"></div></div>
       <div class="loading-steps">
         <div class="loading-step done"  id="ls1"><div class="step-dot"></div> Reading your submission</div>
-        <div class="loading-step active" id="ls2"><div class="step-dot"></div> Analysing niche & audience</div>
+        <div class="loading-step active" id="ls2"><div class="step-dot"></div> Analysing niche &amp; audience</div>
         <div class="loading-step" id="ls3"><div class="step-dot"></div> Identifying critical issues</div>
         <div class="loading-step" id="ls4"><div class="step-dot"></div> Benchmarking against industry</div>
         <div class="loading-step" id="ls5"><div class="step-dot"></div> Writing your action plan</div>
@@ -135,34 +135,6 @@
       return 'bad';
     }
 
-    function buildPrompt(data) {
-      var auditList = data.auditTypes.join(', ');
-      return 'You are auditing a product. Be specific to the niche and audience in every single finding.\n\n'
-        + 'Product: ' + data.productName + '\n'
-        + 'URL: ' + data.url + '\n'
-        + 'Niche: ' + data.niche + '\n'
-        + 'Audience: ' + data.audience + '\n'
-        + 'Challenge: ' + (data.goals || 'Not specified') + '\n'
-        + 'Audit only these sections (no extras): ' + auditList + '\n\n'
-        + 'Return a JSON object with:\n'
-        + '- "scores": object with a key per audit type (ux, marketing, qa, seo) — only include selected ones, value 1-10\n'
-        + '- "sections": array — one object per selected audit type with: icon (emoji), title, score (1-10), summary (2 sentences), findings (array of 3 objects with type (issue/warning/good), title, detail)\n'
-        + '- "actions": array of 5 objects with title and detail — prioritised by impact\n\n'
-        + 'Rules: Only include sections for: ' + auditList + '. Reference ' + data.niche + ' and ' + data.audience + ' in findings. Return valid JSON only, no markdown.';
-    };
-
-      var scoreKeys = data.auditTypes.map(function(t) {
-        return '"' + auditMap[t].key + '":7';
-      }).join(',');
-
-      var sectionsTemplate = data.auditTypes.map(function(t) {
-        var a = auditMap[t];
-        return '{"icon":"' + a.icon + '","title":"' + a.title + '","score":7,"summary":"Niche-specific 2-3 sentence assessment.","findings":[{"type":"issue","title":"Specific issue","detail":"Specific detail for this niche and audience."},{"type":"warning","title":"Specific warning","detail":"Specific detail."},{"type":"good","title":"Specific strength","detail":"Specific detail."}]}';
-      }).join(',');
-
-      return 'Audit this product. Be specific to the niche and audience in every finding — no generic advice.\n\nProduct: ' + data.productName + '\nURL: ' + data.url + '\nNiche: ' + data.niche + '\nAudience: ' + data.audience + '\nChallenge: ' + (data.goals || 'Not specified') + '\nAudit only these sections: ' + data.auditTypes.join(', ') + '\n\nFor each finding, reference the ' + data.niche + ' niche and ' + data.audience + ' audience specifically. Score using ' + data.niche + ' benchmarks.\n\nRespond ONLY with this JSON, no markdown:\n{"scores":{' + scoreKeys + '},"sections":[' + sectionsTemplate + '],"actions":[{"title":"Action 1","detail":"Specific detail."},{"title":"Action 2","detail":"Specific detail."},{"title":"Action 3","detail":"Specific detail."},{"title":"Action 4","detail":"Specific detail."},{"title":"Action 5","detail":"Specific detail."}]}';
-    }
-
     function renderReport(data, meta) {
       clearInterval(stepInterval);
       document.getElementById('loadingScreen').style.display = 'none';
@@ -190,7 +162,7 @@
 
       var aHTML = '';
       for (var a = 0; a < data.actions.length; a++) {
-        aHTML += '<div class="action-item"><div class="action-num">' + (a+1) + '</div><div class="action-text"><strong>' + data.actions[a].title + '</strong>' + data.actions[a].detail + '</div></div>';
+        aHTML += '<div class="action-item"><div class="action-num">' + (a + 1) + '</div><div class="action-text"><strong>' + data.actions[a].title + '</strong>' + data.actions[a].detail + '</div></div>';
       }
 
       document.getElementById('reportOutput').innerHTML =
@@ -228,12 +200,18 @@
       var raw = localStorage.getItem('roastData');
       if (!raw) { window.location.href = 'index.html'; return; }
       var data = JSON.parse(raw);
-      var prompt = buildPrompt(data);
 
       fetch('/api/audit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: prompt })
+        body: JSON.stringify({
+          productName: data.productName,
+          url: data.url,
+          niche: data.niche,
+          audience: data.audience,
+          goals: data.goals,
+          auditTypes: data.auditTypes
+        })
       })
       .then(function(r) {
         if (!r.ok) return r.json().then(function(e) { throw new Error(e.error || 'Server error ' + r.status); });
@@ -241,17 +219,7 @@
       })
       .then(function(result) {
         if (!result.result) throw new Error('No response from AI');
-        // Strip markdown fences
-        var cleaned = result.result.split('```json').join('').split('```').join('').trim();
-        // Extract JSON object — find first { and last }
-        var start = cleaned.indexOf('{');
-        var end = cleaned.lastIndexOf('}');
-        if (start === -1 || end === -1) throw new Error('No JSON found in AI response');
-        cleaned = cleaned.substring(start, end + 1);
-        var parsed;
-        try { parsed = JSON.parse(cleaned); }
-        catch(e) { throw new Error('AI returned malformed JSON. Please try again.'); }
-        renderReport(parsed, data);
+        renderReport(result.result, data);
       })
       .catch(function(err) { showError('Error: ' + err.message); });
     };

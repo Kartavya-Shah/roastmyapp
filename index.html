@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>RoastMyApp — Free AI Product Audit</title>
-  <meta name="description" content="Submit your app or website and get a brutal AI-powered audit of your UX, marketing copy, and QA in 60 seconds." />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,8 +50,8 @@
     .other-input.show { display: block; }
     .audit-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
     .audit-opt { display: flex; align-items: center; gap: 0.6rem; border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 1rem; cursor: pointer; transition: all 0.15s; user-select: none; }
+    .audit-opt:hover { border-color: #444; }
     .audit-opt.active { border-color: var(--accent); background: rgba(255,77,0,0.06); }
-    .audit-opt input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); padding: 0; flex-shrink: 0; }
     .audit-opt-title { font-size: 0.82rem; font-weight: 500; color: var(--text); }
     .audit-opt-desc { font-size: 0.7rem; color: var(--muted); }
     .divider { border: none; border-top: 1px solid var(--border); margin: 1.8rem 0; }
@@ -129,19 +128,15 @@
         <label>What should we audit? <span>*</span></label>
         <div class="audit-options">
           <div class="audit-opt" data-value="UX Review" onclick="toggleAudit(this)">
-            <input type="checkbox" />
             <div><div class="audit-opt-title">🎨 UX Review</div><div class="audit-opt-desc">Layout, flow, usability</div></div>
           </div>
           <div class="audit-opt" data-value="Marketing Copy" onclick="toggleAudit(this)">
-            <input type="checkbox" />
             <div><div class="audit-opt-title">📢 Marketing Copy</div><div class="audit-opt-desc">Messaging & conversion</div></div>
           </div>
           <div class="audit-opt" data-value="QA Report" onclick="toggleAudit(this)">
-            <input type="checkbox" />
             <div><div class="audit-opt-title">🐛 QA Report</div><div class="audit-opt-desc">Bugs & inconsistencies</div></div>
           </div>
           <div class="audit-opt" data-value="SEO Basics" onclick="toggleAudit(this)">
-            <input type="checkbox" />
             <div><div class="audit-opt-title">🔍 SEO Basics</div><div class="audit-opt-desc">Visibility & indexability</div></div>
           </div>
         </div>
@@ -159,13 +154,11 @@
   <script>
     var selectedNiche = '';
 
-    // Niche pills
     document.querySelectorAll('.pill').forEach(function(pill) {
       pill.addEventListener('click', function() {
         document.querySelectorAll('.pill').forEach(function(p) { p.classList.remove('active'); });
         pill.classList.add('active');
         selectedNiche = pill.dataset.value;
-        // Show text input only for "Other"
         var wrap = document.getElementById('otherNicheWrap');
         if (selectedNiche === 'Other') {
           wrap.classList.add('show');
@@ -177,10 +170,8 @@
       });
     });
 
-    // Audit option toggle
     function toggleAudit(el) {
       el.classList.toggle('active');
-      el.querySelector('input[type="checkbox"]').checked = el.classList.contains('active');
     }
 
     function handleSubmit() {
@@ -190,32 +181,38 @@
       var goals = document.getElementById('goals').value.trim();
       var err = document.getElementById('errorMsg');
 
-      // If "Other" selected, use typed value as niche
       var finalNiche = selectedNiche;
       if (selectedNiche === 'Other') {
         var otherVal = document.getElementById('otherNiche').value.trim();
-        if (!otherVal) { err.textContent = 'Please type your industry.'; err.style.display='block'; return; }
+        if (!otherVal) { err.textContent = 'Please type your industry.'; err.style.display = 'block'; return; }
         finalNiche = otherVal;
       }
 
-      // Get selected audit types
       var auditTypes = [];
       document.querySelectorAll('.audit-opt.active').forEach(function(opt) {
         auditTypes.push(opt.dataset.value);
       });
 
-      if (!url) { err.textContent = 'Please enter your website URL.'; err.style.display='block'; return; }
-      if (!productName) { err.textContent = 'Please enter your product name.'; err.style.display='block'; return; }
-      if (!finalNiche) { err.textContent = 'Please select a niche.'; err.style.display='block'; return; }
-      if (!audience) { err.textContent = 'Please describe your target audience.'; err.style.display='block'; return; }
-      if (auditTypes.length === 0) { err.textContent = 'Please select at least one audit type.'; err.style.display='block'; return; }
+      if (!url) { err.textContent = 'Please enter your website URL.'; err.style.display = 'block'; return; }
+      if (!productName) { err.textContent = 'Please enter your product name.'; err.style.display = 'block'; return; }
+      if (!finalNiche) { err.textContent = 'Please select a niche.'; err.style.display = 'block'; return; }
+      if (!audience) { err.textContent = 'Please describe your target audience.'; err.style.display = 'block'; return; }
+      if (auditTypes.length === 0) { err.textContent = 'Please select at least one audit type.'; err.style.display = 'block'; return; }
 
       err.style.display = 'none';
       var btn = document.getElementById('submitBtn');
       btn.classList.add('loading');
       btn.innerHTML = '<span class="spinner"></span> Launching AI...';
 
-      localStorage.setItem('roastData', JSON.stringify({ url: url, productName: productName, niche: finalNiche, audience: audience, goals: goals, auditTypes: auditTypes }));
+      localStorage.setItem('roastData', JSON.stringify({
+        url: url,
+        productName: productName,
+        niche: finalNiche,
+        audience: audience,
+        goals: goals,
+        auditTypes: auditTypes
+      }));
+
       setTimeout(function() { window.location.href = 'report.html'; }, 800);
     }
   </script>
